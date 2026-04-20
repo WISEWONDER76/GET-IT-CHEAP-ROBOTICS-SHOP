@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="GET IT CHEAP — Empowering young innovators through hands-on electronics and STEM robotics kits for future engineers." />
+  <meta name="keywords" content="STEM, robotics, electronics, Arduino, Ghana, education, kids, science" />
+  <title>GET IT CHEAP | STEM & Electronics for Future Innovators</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =============================================
+       CSS VARIABLES & RESET
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #0B1A33;
+      --blue:      #1553E0;
+      --blue-glow: #3B7BFF;
+      --sky:       #E8F0FF;
+      --accent:    #00E5A0;
+      --white:     #FFFFFF;
+      --text:      #1A2540;
+      --muted:     #6A7A99;
+      --border:    rgba(21,83,224,0.12);
+      --shadow-sm: 0 2px 12px rgba(11,26,51,0.07);
+      --shadow-md: 0 8px 32px rgba(11,26,51,0.12);
+      --shadow-lg: 0 20px 60px rgba(11,26,51,0.16);
+      --radius:    16px;
+      --radius-sm: 10px;
+      --transition: 0.28s cubic-bezier(0.34,1.12,0.64,1);
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font-body); color: var(--text); background: var(--white); overflow-x: hidden; line-height: 1.6; }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: var(--font-body); }
+    ul { list-style: none; }
+
+    /* =============================================
+       UTILITY
+    ============================================= */
+    .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: var(--sky);
+      padding: 5px 14px;
+      border-radius: 40px;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.15;
+    }
+    .section-sub { color: var(--muted); font-size: 1.05rem; max-width: 540px; margin-top: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-head); font-weight: 700; font-size: 0.95rem;
+      padding: 13px 28px; border-radius: 50px; transition: all 0.22s ease;
+    }
+    .btn-primary { background: var(--blue); color: #fff; box-shadow: 0 4px 20px rgba(21,83,224,0.35); }
+    .btn-primary:hover { background: var(--blue-glow); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(21,83,224,0.45); }
+    .btn-outline { border: 2px solid var(--blue); color: var(--blue); }
+    .btn-outline:hover { background: var(--blue); color: #fff; }
+    .btn-whatsapp { background: #25D366; color: #fff; box-shadow: 0 4px 20px rgba(37,211,102,0.35); }
+    .btn-whatsapp:hover { background: #1fba58; transform: translateY(-2px); }
+
+    .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* =============================================
+       HEADER / NAV
+    ============================================= */
+    #header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s ease;
+    }
+    #header.scrolled { box-shadow: var(--shadow-md); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
+
+    /* Logo */
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-head); font-weight: 800; font-size: 1.25rem;
+      color: var(--navy); letter-spacing: -0.01em;
+    }
+    .logo-img {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--sky);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-img img { width: 100%; height: 100%; object-fit: contain; }
+    .logo-text-wrap { display: flex; flex-direction: column; line-height: 1.1; }
+    .logo-main { color: var(--navy); font-size: 1.1rem; }
+    .logo-sub { color: var(--blue); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    .nav-links { display: flex; gap: 36px; align-items: center; }
+    .nav-links a {
+      font-size: 0.92rem; font-weight: 500; color: var(--muted);
+      transition: color 0.2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 2px; background: var(--blue); border-radius: 2px; transition: width 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .cart-btn {
+      position: relative; width: 42px; height: 42px;
+      border-radius: 50%; background: var(--sky);
+      display: grid; place-items: center; transition: background 0.2s;
+    }
+    .cart-btn:hover { background: #D6E4FF; }
+    .cart-btn svg { width: 20px; height: 20px; stroke: var(--navy); }
+    .cart-count {
+      position: absolute; top: -3px; right: -3px;
+      background: var(--accent); color: var(--navy);
+      font-family: var(--font-head); font-size: 0.65rem; font-weight: 800;
+      width: 18px; height: 18px; border-radius: 50%;
+      display: none; place-items: center;
+    }
+    .cart-count.show { display: grid; }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; width: 28px; cursor: pointer; }
+    .hamburger span { display: block; height: 2px; background: var(--navy); border-radius: 2px; transition: all 0.3s ease; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu { display: none; flex-direction: column; gap: 0; padding: 0 0 16px; border-top: 1px solid var(--border); }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { padding: 13px 0; font-size: 1rem; font-weight: 500; color: var(--text); border-bottom: 1px solid var(--border); }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    #hero {
+      position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #F0F5FF 0%, #E8F0FF 60%, #fff 100%);
+      padding: 100px 0 80px;
+    }
+    #hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(21,83,224,0.08) 1px, transparent 1px);
+      background-size: 32px 32px; pointer-events: none;
+    }
+    .hero-blob { position: absolute; top: -100px; right: -120px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(59,123,255,0.18) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
+    .hero-blob-2 { position: absolute; bottom: -80px; left: -80px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,229,160,0.12) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
+
+    .hero-inner { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 1px solid var(--border);
+      padding: 6px 14px 6px 8px; border-radius: 40px;
+      font-size: 0.82rem; font-weight: 500; color: var(--blue);
+      margin-bottom: 22px; box-shadow: var(--shadow-sm);
+    }
+    .hero-badge-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(0,229,160,0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(0,229,160,0); }
+    }
+
+    .hero-title { font-family: var(--font-head); font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; color: var(--navy); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 18px; }
+    .hero-title .highlight { color: var(--blue); position: relative; }
+    .hero-title .highlight::after { content: ''; position: absolute; left: 0; bottom: 2px; width: 100%; height: 6px; background: linear-gradient(90deg, var(--accent), rgba(0,229,160,0.3)); border-radius: 3px; z-index: -1; }
+    .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 480px; margin-bottom: 36px; line-height: 1.7; }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 28px; margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+    .hero-stat-num { font-family: var(--font-head); font-size: 1.6rem; font-weight: 800; color: var(--navy); }
+    .hero-stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+
+    .hero-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; position: relative; }
+    .hero-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; transition: transform var(--transition); }
+    .hero-card:hover { transform: translateY(-6px) scale(1.02); }
+    .hero-card img { width: 100%; height: 140px; object-fit: cover; }
+    .hero-card-body { padding: 12px; }
+    .hero-card-name { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; color: var(--navy); }
+    .hero-card-price { font-size: 0.82rem; color: var(--blue); font-weight: 600; margin-top: 3px; }
+    .hero-floating-badge {
+      position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%);
+      background: var(--navy); color: #fff; padding: 10px 20px; border-radius: 40px;
+      font-size: 0.82rem; font-weight: 600; white-space: nowrap;
+      box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 8px;
+    }
+    .hero-floating-badge .dot-green { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: inline-block; }
+
+    /* =============================================
+       FEATURES STRIP
+    ============================================= */
+    #features { background: var(--navy); padding: 48px 0; }
+    .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+    .feature-item { display: flex; align-items: flex-start; gap: 14px; }
+    .feature-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.08); display: grid; place-items: center; flex-shrink: 0; }
+    .feature-icon svg { width: 22px; height: 22px; stroke: var(--accent); }
+    .feature-title { font-family: var(--font-head); font-weight: 700; font-size: 0.95rem; color: var(--white); margin-bottom: 3px; }
+    .feature-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+    /* =============================================
+       SHOP / PRODUCTS
+    ============================================= */
+    #shop { padding: 100px 0; }
+    .shop-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 20px; }
+    .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-tab {
+      padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;
+      font-family: var(--font-head); background: var(--sky); color: var(--muted);
+      transition: all 0.2s; border: 2px solid transparent;
+    }
+    .filter-tab.active, .filter-tab:hover { background: var(--blue); color: var(--white); }
+
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
+
+    /* Product card */
+    .product-card {
+      background: var(--white); border-radius: var(--radius);
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+      overflow: hidden; transition: transform var(--transition), box-shadow 0.28s ease;
+      position: relative; cursor: pointer;
+    }
+    .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+
+    .product-badge {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--accent); color: var(--navy);
+      font-family: var(--font-head); font-size: 0.7rem; font-weight: 800;
+      padding: 3px 10px; border-radius: 40px; letter-spacing: 0.05em;
+      text-transform: uppercase; z-index: 2;
+    }
+
+    .product-img-wrap { background: linear-gradient(135deg, #EEF4FF 0%, #F5F9FF 100%); height: 190px; overflow: hidden; position: relative; }
+    .img-track { display: flex; width: 200%; height: 100%; transition: transform 0.45s cubic-bezier(0.77,0,0.175,1); }
+    .img-track.show-second { transform: translateX(-50%); }
+    .img-track img { width: 50%; height: 100%; object-fit: cover; flex-shrink: 0; transition: transform 0.5s ease; display: block; }
+    .product-card:hover .img-track img { transform: scale(1.05); }
+
+    .img-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; z-index: 5; }
+    .img-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.55); border: none; padding: 0; cursor: pointer; transition: background 0.2s, transform 0.2s; flex-shrink: 0; }
+    .img-dot.active { background: #fff; transform: scale(1.35); }
+
+    .img-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(255,255,255,0.88); backdrop-filter: blur(4px);
+      border: none; display: grid; place-items: center; cursor: pointer;
+      z-index: 5; opacity: 0; transition: opacity 0.2s, background 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .img-arrow svg { width: 14px; height: 14px; stroke: var(--navy); }
+    .img-arrow.prev { left: 8px; }
+    .img-arrow.next { right: 8px; }
+    .product-card:hover .img-arrow { opacity: 1; }
+    .img-arrow:hover { background: #fff; }
+
+    /* Zoom hint overlay */
+    .zoom-hint {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(11,26,51,0.6); color: #fff;
+      width: 28px; height: 28px; border-radius: 50%;
+      display: grid; place-items: center;
+      opacity: 0; transition: opacity 0.2s; z-index: 5;
+      pointer-events: none;
+    }
+    .zoom-hint svg { width: 14px; height: 14px; stroke: #fff; fill: none; }
+    .product-card:hover .zoom-hint { opacity: 1; }
+
+    .product-body { padding: 18px; }
+    .product-category { font-size: 0.72rem; font-weight: 600; color: var(--blue); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+    .product-name { font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 6px; line-height: 1.3; }
+    .product-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin-bottom: 14px; }
+    .product-footer { display: flex; justify-content: space-between; align-items: center; }
+    .product-price { font-family: var(--font-head); font-weight: 800; font-size: 1.15rem; color: var(--navy); }
+    .product-price .currency { font-size: 0.8em; color: var(--muted); }
+    .add-to-cart-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--blue); color: #fff;
+      font-family: var(--font-head); font-weight: 700; font-size: 0.82rem;
+      padding: 9px 16px; border-radius: 50px;
+      transition: all 0.22s ease; box-shadow: 0 3px 12px rgba(21,83,224,0.28);
+    }
+    .add-to-cart-btn:hover { background: var(--blue-glow); transform: scale(1.04); }
+    .add-to-cart-btn svg { width: 15px; height: 15px; }
+    .add-to-cart-btn.added { background: var(--accent); color: var(--navy); }
+
+    /* =============================================
+       PRODUCT LIGHTBOX
+    ============================================= */
+    .lightbox-overlay {
+      position: fixed; inset: 0;
+      background: rgba(5,10,25,0.92);
+      z-index: 5000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+    .lightbox-overlay.open { opacity: 1; pointer-events: all; }
+
+    .lightbox {
+      background: #fff;
+      border-radius: 20px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      transform: scale(0.92);
+      transition: transform 0.3s cubic-bezier(0.34,1.12,0.64,1);
+      position: relative;
+    }
+    .lightbox-overlay.open .lightbox { transform: scale(1); }
+
+    .lightbox-close {
+      position: absolute; top: 16px; right: 16px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(0,0,0,0.08);
+      display: grid; place-items: center; z-index: 10;
+      transition: background 0.2s;
+    }
+    .lightbox-close:hover { background: rgba(0,0,0,0.15); }
+    .lightbox-close svg { width: 18px; height: 18px; stroke: var(--navy); fill: none; }
+
+    /* Lightbox image panel */
+    .lightbox-imgs {
+      position: relative;
+      background: linear-gradient(135deg, #EEF4FF, #F5F9FF);
+      border-radius: 20px 0 0 20px;
+      overflow: hidden;
+      min-height: 340px;
+    }
+    .lb-track {
+      display: flex; width: 200%; height: 100%;
+      transition: transform 0.45s cubic-bezier(0.77,0,0.175,1);
+    }
+    .lb-track.show-second { transform: translateX(-50%); }
+    .lb-track img { width: 50%; height: 100%; object-fit: contain; flex-shrink: 0; padding: 20px; }
+
+    .lb-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      display: grid; place-items: center; cursor: pointer;
+      box-shadow: var(--shadow-sm); z-index: 5;
+      transition: background 0.2s;
+    }
+    .lb-arrow:hover { background: #fff; }
+    .lb-arrow svg { width: 16px; height: 16px; stroke: var(--navy); fill: none; }
+    .lb-arrow.prev { left: 12px; }
+    .lb-arrow.next { right: 12px; }
+
+    .lb-dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+    .lb-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(21,83,224,0.25); border: none; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+    .lb-dot.active { background: var(--blue); transform: scale(1.3); }
+
+    /* Lightbox info panel */
+    .lightbox-info {
+      padding: 36px 32px;
+      display: flex; flex-direction: column;
+      justify-content: center;
+    }
+    .lb-category { font-size: 0.72rem; font-weight: 700; color: var(--blue); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .lb-name { font-family: var(--font-head); font-weight: 800; font-size: 1.5rem; color: var(--navy); line-height: 1.2; margin-bottom: 12px; }
+    .lb-desc { font-size: 0.92rem; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+    .lb-price { font-family: var(--font-head); font-weight: 800; font-size: 2rem; color: var(--navy); margin-bottom: 28px; }
+    .lb-price .lb-currency { font-size: 0.6em; color: var(--muted); }
+    .lb-badge { display: inline-block; background: var(--accent); color: var(--navy); font-family: var(--font-head); font-size: 0.7rem; font-weight: 800; padding: 3px 12px; border-radius: 40px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 16px; }
+    .lb-add-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--blue); color: #fff;
+      font-family: var(--font-head); font-weight: 700; font-size: 1rem;
+      padding: 15px 28px; border-radius: 50px;
+      transition: all 0.22s ease; box-shadow: 0 4px 20px rgba(21,83,224,0.3);
+      width: 100%;
+    }
+    .lb-add-btn:hover { background: var(--blue-glow); transform: translateY(-2px); }
+    .lb-add-btn.added { background: var(--accent); color: var(--navy); }
+    .lb-whatsapp-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #25D366; color: #fff;
+      font-family: var(--font-head); font-weight: 700; font-size: 0.9rem;
+      padding: 13px 28px; border-radius: 50px;
+      transition: all 0.22s ease; box-shadow: 0 4px 16px rgba(37,211,102,0.3);
+      width: 100%; margin-top: 10px;
+    }
+    .lb-whatsapp-btn:hover { background: #1fba58; transform: translateY(-2px); }
+
+    /* =============================================
+       ABOUT
+    ============================================= */
+    #about { padding: 100px 0; background: linear-gradient(160deg, #F0F5FF 0%, #fff 100%); }
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-visual { position: relative; }
+    .about-img-main { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); height: 380px; background: linear-gradient(135deg, #0B1A33, #1553E0); display: flex; align-items: center; justify-content: center; }
+    .about-img-main img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); }
+    .about-stat-card { position: absolute; bottom: -24px; right: -24px; background: var(--white); border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); padding: 18px 22px; display: flex; gap: 18px; }
+    .about-stat { text-align: center; }
+    .about-stat-n { font-family: var(--font-head); font-size: 1.5rem; font-weight: 800; color: var(--navy); }
+    .about-stat-l { font-size: 0.75rem; color: var(--muted); }
+    .about-text { color: var(--muted); line-height: 1.8; margin-top: 16px; margin-bottom: 20px; }
+    .about-pillars { display: flex; flex-direction: column; gap: 14px; margin-top: 24px; }
+    .pillar { display: flex; gap: 14px; align-items: flex-start; padding: 14px 18px; background: #fff; border-radius: var(--radius-sm); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .pillar-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--sky); display: grid; place-items: center; flex-shrink: 0; }
+    .pillar-icon svg { width: 20px; height: 20px; stroke: var(--blue); }
+    .pillar-title { font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; color: var(--navy); }
+    .pillar-desc { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+
+    /* =============================================
+       TESTIMONIALS
+    ============================================= */
+    #testimonials { padding: 100px 0; background: var(--navy); overflow: hidden; }
+    #testimonials .section-label { background: rgba(255,255,255,0.08); color: var(--accent); }
+    #testimonials .section-title { color: var(--white); }
+    #testimonials .section-sub { color: rgba(255,255,255,0.5); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .testi-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 28px; transition: background 0.25s; }
+    .testi-card:hover { background: rgba(255,255,255,0.1); }
+    .testi-stars { color: #FFD166; font-size: 1.1rem; margin-bottom: 14px; letter-spacing: 2px; }
+    .testi-text { color: rgba(255,255,255,0.8); font-size: 0.92rem; line-height: 1.7; margin-bottom: 20px; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--accent)); display: grid; place-items: center; font-family: var(--font-head); font-weight: 800; font-size: 1rem; color: #fff; }
+    .testi-name { font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; color: #fff; }
+    .testi-role { font-size: 0.78rem; color: rgba(255,255,255,0.45); }
+
+    /* =============================================
+       CONTACT
+    ============================================= */
+    #contact { padding: 100px 0; }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .contact-info-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 22px; }
+    .contact-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--sky); display: grid; place-items: center; flex-shrink: 0; }
+    .contact-icon svg { width: 20px; height: 20px; stroke: var(--blue); }
+    .contact-info-label { font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+    .contact-info-val { font-weight: 500; color: var(--navy); }
+    .contact-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-label { font-size: 0.84rem; font-weight: 600; color: var(--text); }
+    .form-input, .form-textarea { padding: 12px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.92rem; color: var(--text); background: #fff; transition: border-color 0.2s, box-shadow 0.2s; outline: none; }
+    .form-input:focus, .form-textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21,83,224,0.1); }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-submit { background: var(--blue); color: #fff; font-family: var(--font-head); font-weight: 700; font-size: 0.95rem; padding: 14px; border-radius: 50px; transition: all 0.22s ease; box-shadow: 0 4px 20px rgba(21,83,224,0.3); }
+    .form-submit:hover { background: var(--blue-glow); transform: translateY(-2px); }
+    .form-success { display: none; background: #E6FFF3; border: 1.5px solid var(--accent); color: #0B6B3A; padding: 14px 18px; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.9rem; }
+    .form-success.show { display: block; }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 64px 0 0; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand p { font-size: 0.88rem; line-height: 1.7; margin-top: 12px; max-width: 280px; }
+    .footer-logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; color: #fff; }
+    .footer-logo-img { width: 36px; height: 36px; border-radius: 8px; overflow: hidden; background: rgba(255,255,255,0.1); flex-shrink: 0; }
+    .footer-logo-img img { width: 100%; height: 100%; object-fit: contain; }
+    .footer-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .footer-logo-text span:first-child { font-size: 1rem; color: #fff; }
+    .footer-logo-text span:last-child { font-size: 0.65rem; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; }
+    .footer-col-title { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; color: #fff; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 0.88rem; transition: color 0.2s; }
+    .footer-links a:hover { color: #fff; }
+    .social-links { display: flex; gap: 10px; margin-top: 10px; }
+    .social-link { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.08); display: grid; place-items: center; transition: background 0.2s; }
+    .social-link:hover { background: var(--blue); }
+    .social-link svg { width: 18px; height: 18px; stroke: rgba(255,255,255,0.8); fill: none; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer-bottom a { transition: color 0.2s; }
+    .footer-bottom a:hover { color: #fff; }
+    .powered-by {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .powered-by strong { color: var(--accent); font-family: var(--font-head); }
+
+    /* =============================================
+       CART DRAWER
+    ============================================= */
+    .cart-overlay { position: fixed; inset: 0; background: rgba(11,26,51,0.5); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(4px); }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
+    .cart-drawer { position: fixed; top: 0; right: -420px; width: 100%; max-width: 420px; height: 100%; background: #fff; z-index: 2100; display: flex; flex-direction: column; transition: right 0.35s cubic-bezier(0.34,1.12,0.64,1); box-shadow: -8px 0 48px rgba(0,0,0,0.15); }
+    .cart-drawer.open { right: 0; }
+    .cart-header { display: flex; justify-content: space-between; align-items: center; padding: 22px 24px; border-bottom: 1px solid var(--border); }
+    .cart-title { font-family: var(--font-head); font-weight: 800; font-size: 1.1rem; color: var(--navy); }
+    .cart-close { width: 36px; height: 36px; border-radius: 50%; background: var(--sky); display: grid; place-items: center; transition: background 0.2s; }
+    .cart-close:hover { background: #D6E4FF; }
+    .cart-close svg { width: 18px; height: 18px; stroke: var(--navy); }
+    .cart-items { flex: 1; overflow-y: auto; padding: 20px 24px; }
+    .cart-empty { text-align: center; padding: 60px 0; color: var(--muted); }
+    .cart-empty svg { width: 56px; height: 56px; stroke: var(--border); margin: 0 auto 14px; }
+    .cart-empty p { font-size: 0.9rem; }
+    .cart-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); align-items: center; }
+    .cart-item-img { width: 60px; height: 60px; border-radius: var(--radius-sm); background: var(--sky); flex-shrink: 0; overflow: hidden; }
+    .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; color: var(--navy); }
+    .cart-item-price { font-size: 0.85rem; color: var(--blue); font-weight: 600; margin-top: 3px; }
+    .cart-item-controls { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+    .qty-btn { width: 26px; height: 26px; border-radius: 50%; background: var(--sky); display: grid; place-items: center; font-size: 1rem; font-weight: 700; color: var(--navy); transition: background 0.2s; }
+    .qty-btn:hover { background: #D6E4FF; }
+    .qty-num { font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; color: var(--navy); min-width: 18px; text-align: center; }
+    .remove-item { margin-left: auto; color: #FF4D6D; font-size: 0.8rem; font-weight: 600; }
+    .cart-footer { padding: 20px 24px; border-top: 1px solid var(--border); }
+    .cart-total-row { display: flex; justify-content: space-between; margin-bottom: 16px; }
+    .cart-total-label { font-weight: 500; color: var(--muted); }
+    .cart-total-val { font-family: var(--font-head); font-weight: 800; font-size: 1.15rem; color: var(--navy); }
+    .cart-checkout-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: #25D366; color: #fff; font-family: var(--font-head); font-weight: 700; font-size: 0.95rem; padding: 14px; border-radius: 50px; transition: all 0.22s ease; box-shadow: 0 4px 20px rgba(37,211,102,0.35); }
+    .cart-checkout-btn:hover { background: #1fba58; transform: translateY(-2px); }
+    .cart-checkout-btn svg { width: 20px; height: 20px; fill: #fff; }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--navy); color: #fff; padding: 12px 22px; border-radius: 50px; font-size: 0.88rem; font-weight: 600; font-family: var(--font-head); z-index: 9999; opacity: 0; transition: opacity 0.3s, transform 0.3s; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow-md); pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr 1fr; }
+      .lightbox { grid-template-columns: 1fr; max-width: 480px; }
+      .lightbox-imgs { border-radius: 20px 20px 0 0; min-height: 260px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .about-inner { grid-template-columns: 1fr; }
+      .about-stat-card { position: static; margin-top: 20px; display: inline-flex; }
+      .contact-inner { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats { flex-wrap: wrap; gap: 20px; }
+    }
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
+      #hero { padding: 60px 0 50px; }
+      .lightbox-info { padding: 24px 20px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- =============================================
+     HEADER
+============================================= -->
+<header id="header">
+  <div class="container">
+    <nav class="nav-inner">
+      <a href="#hero" class="logo" aria-label="Get It Cheap Home">
+        <div class="logo-img">
+          <img src="logo.jpeg" alt="Get It Cheap Logo" onerror="this.style.display='none'"/>
+        </div>
+        <div class="logo-text-wrap">
+          <span class="logo-main">GET IT CHEAP</span>
+          <span class="logo-sub">Electronics & STEM</span>
+        </div>
+      </a>
+
+      <ul class="nav-links" role="navigation">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <button class="cart-btn" id="cartToggle" aria-label="Open cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <div class="hamburger" id="hamburger" role="button" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu" role="navigation">
+      <a href="#hero">Home</a>
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<!-- =============================================
+     HERO
+============================================= -->
+<section id="hero" aria-labelledby="hero-title">
+  <div class="hero-blob"></div>
+  <div class="hero-blob-2"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Now shipping across Ghana 🇬🇭
+        </div>
+        <h1 class="hero-title" id="hero-title">
+          Empowering<br>
+          <span class="highlight">Young Innovators</span><br>
+          Through STEM
+        </h1>
+        <p class="hero-sub">Hands-on electronics and robotics kits for future engineers. Build, learn, and create with confidence.</p>
+        <div class="hero-cta">
+          <a href="#shop" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            Shop Now
+          </a>
+          <a href="#about" class="btn btn-outline">Learn More</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num">500+</div><div class="hero-stat-label">Happy Students</div></div>
+          <div><div class="hero-stat-num">10+</div><div class="hero-stat-label">STEM Products</div></div>
+          <div><div class="hero-stat-num">4.9★</div><div class="hero-stat-label">Avg. Rating</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card fade-in">
+          <img src="K1.png" alt="Arduino Starter Kit" loading="lazy"/>
+          <div class="hero-card-body"><div class="hero-card-name">Arduino Starter Kit</div><div class="hero-card-price">GH₵ 180.00</div></div>
+        </div>
+        <div class="hero-card fade-in" style="margin-top:32px">
+          <img src="2W1.png" alt="2WD Robotics Car" loading="lazy"/>
+          <div class="hero-card-body"><div class="hero-card-name">2WD Robotics Car</div><div class="hero-card-price">GH₵ 220.00</div></div>
+        </div>
+        <div class="hero-card fade-in">
+          <img src="37S1.png" alt="37 Sensors Pack" loading="lazy"/>
+          <div class="hero-card-body"><div class="hero-card-name">37 Sensors Pack</div><div class="hero-card-price">GH₵ 95.00</div></div>
+        </div>
+        <div class="hero-card fade-in" style="margin-top:32px">
+          <img src="EB1.png" alt="Electronics Block Kit" loading="lazy"/>
+          <div class="hero-card-body"><div class="hero-card-name">Electronics Block Kit</div><div class="hero-card-price">GH₵ 130.00</div></div>
+        </div>
+        <div class="hero-floating-badge"><span class="dot-green"></span> In Stock · Fast Delivery</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     FEATURES STRIP
+============================================= -->
+<section id="features" aria-label="Our advantages">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-item fade-in">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <div><div class="feature-title">Fast Delivery</div><div class="feature-desc">Same-day dispatch within Accra. Nationwide shipping available.</div></div>
+      </div>
+      <div class="feature-item fade-in">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div class="feature-title">Quality Assured</div><div class="feature-desc">Every kit is tested and verified before it leaves our hands.</div></div>
+      </div>
+      <div class="feature-item fade-in">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div><div class="feature-title">24/7 Support</div><div class="feature-desc">WhatsApp support and tutorials for every product we sell.</div></div>
+      </div>
+      <div class="feature-item fade-in">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+        <div><div class="feature-title">STEM-Focused</div><div class="feature-desc">Curated for learners aged 8–18. Every kit teaches real skills.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     SHOP / PRODUCTS
+============================================= -->
+<section id="shop" aria-labelledby="shop-title">
+  <div class="container">
+    <div class="shop-header">
+      <div>
+        <span class="section-label">Our Products</span>
+        <h2 class="section-title" id="shop-title">Featured Kits & Tools</h2>
+        <p class="section-sub">Everything you need to build, code, and innovate — right here.</p>
+      </div>
+      <div class="filter-tabs" role="group" aria-label="Filter products">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="robotics">Robotics</button>
+        <button class="filter-tab" data-filter="electronics">Electronics</button>
+        <button class="filter-tab" data-filter="stem">STEM Kits</button>
+      </div>
+    </div>
+    <div class="products-grid" id="productsGrid" aria-label="Product list"></div>
+  </div>
+</section>
+
+<!-- =============================================
+     ABOUT
+============================================= -->
+<section id="about" aria-labelledby="about-title">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-visual fade-in">
+        <div class="about-img-main">
+          <img src="K1.png" alt="Students building with STEM kits" loading="lazy"/>
+        </div>
+        <div class="about-stat-card">
+          <div class="about-stat"><div class="about-stat-n">500+</div><div class="about-stat-l">Students</div></div>
+          <div class="about-stat"><div class="about-stat-n">5 yrs</div><div class="about-stat-l">Experience</div></div>
+          <div class="about-stat"><div class="about-stat-n">20+</div><div class="about-stat-l">Schools</div></div>
+        </div>
+      </div>
+      <div class="about-content fade-in">
+        <span class="section-label">Our Story</span>
+        <h2 class="section-title" id="about-title">Built for Ghana's Next Generation of Engineers</h2>
+        <p class="about-text">GET IT CHEAP was born from a simple belief: every Ghanaian student deserves access to quality STEM tools. We started in a small workshop in Accra, frustrated that hands-on learning kits were either unavailable or unaffordable locally.</p>
+        <p class="about-text">Today, we supply electronics, robotics kits, and STEM materials to students, hobbyists, and schools across Ghana. Our mission is to close the gap between classroom theory and real-world engineering, one kit at a time.</p>
+        <div class="about-pillars">
+          <div class="pillar">
+            <div class="pillar-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+            <div><div class="pillar-title">Curriculum-Aligned Products</div><div class="pillar-desc">Kits designed to complement GES STEM curricula and coding syllabi.</div></div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+            <div><div class="pillar-title">Accessible Pricing</div><div class="pillar-desc">Premium STEM tools at prices families and schools can actually afford.</div></div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div><div class="pillar-title">Community First</div><div class="pillar-desc">We run free workshops and donate kits to underprivileged schools quarterly.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     TESTIMONIALS
+============================================= -->
+<section id="testimonials" aria-labelledby="testi-title">
+  <div class="container">
+    <span class="section-label">Testimonials</span>
+    <h2 class="section-title" id="testi-title">What Our Customers Say</h2>
+    <p class="section-sub">From students to teachers — here's why Ghana loves Get It Cheap.</p>
+    <div class="testimonials-grid">
+      <div class="testi-card fade-in">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"My son built his first robot at 11 years old with the Robotics Car Kit. He was so proud — and honestly, so was I. Get It Cheap makes it simple and exciting."</p>
+        <div class="testi-author"><div class="testi-avatar">AK</div><div><div class="testi-name">Abena Kyei</div><div class="testi-role">Parent · Kumasi</div></div></div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"I ordered 15 Arduino kits for my school's coding club. Delivery was fast, packaging was excellent, and the kids absolutely loved them. Will reorder soon."</p>
+        <div class="testi-author"><div class="testi-avatar">EO</div><div><div class="testi-name">Emmanuel Ofori</div><div class="testi-role">ICT Teacher · Accra</div></div></div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The Sensors Pack was exactly what I needed for my final year project. Affordable, genuine components, and their WhatsApp support helped me connect everything correctly."</p>
+        <div class="testi-author"><div class="testi-avatar">PA</div><div><div class="testi-name">Prince Asante</div><div class="testi-role">Engineering Student · KNUST</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     CONTACT
+============================================= -->
+<section id="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="fade-in">
+        <span class="section-label">Contact Us</span>
+        <h2 class="section-title" id="contact-title">Get in Touch</h2>
+        <p class="section-sub">Questions about a product, bulk orders, or school partnerships? We'd love to hear from you.</p>
+        <div style="margin-top:36px">
+          <div class="contact-info-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 0112 18.92 2 2 0 0122 16.92z"/></svg></div>
+            <div><div class="contact-info-label">Phone / WhatsApp</div><div class="contact-info-val">+233 20 215 4489</div></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div><div class="contact-info-label">Email</div><div class="contact-info-val">wiserobotics@gmail.com</div></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div><div class="contact-info-label">Location</div><div class="contact-info-val">Accra, Greater Accra, Ghana</div></div>
+          </div>
+        </div>
+        <div class="contact-ctas">
+          <a href="https://wa.me/233202154489?text=Hello%20Get%20It%20Cheap%2C%20I%20have%20a%20question%20about%20your%20products." target="_blank" rel="noopener" class="btn btn-whatsapp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.523 5.847L.057 23.882l6.218-1.635A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-5.009-1.374l-.36-.214-3.689.97.984-3.595-.234-.369A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+            Chat on WhatsApp
+          </a>
+          <a href="mailto:wiserobotics@gmail.com" class="btn btn-outline">Send Email</a>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="contact-form">
+          <div class="form-group"><label class="form-label" for="name">Full Name</label><input class="form-input" id="name" type="text" placeholder="e.g. Kwame Mensah" required /></div>
+          <div class="form-group"><label class="form-label" for="email">Email Address</label><input class="form-input" id="email" type="email" placeholder="you@example.com" required /></div>
+          <div class="form-group"><label class="form-label" for="message">Message</label><textarea class="form-textarea" id="message" placeholder="Tell us what you need..." required></textarea></div>
+          <div class="form-success" id="formSuccess">✅ Message sent! We'll reply within 24 hours.</div>
+          <button class="form-submit" id="formSubmit" type="button">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     FOOTER
+============================================= -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-img">
+            <img src="logo.jpeg" alt="Get It Cheap Logo" onerror="this.style.display='none'"/>
+          </div>
+          <div class="footer-logo-text">
+            <span>GET IT CHEAP</span>
+            <span>Electronics & STEM</span>
+          </div>
+        </div>
+        <p>Empowering young innovators across Ghana with quality STEM and electronics products. Building tomorrow's engineers, today.</p>
+        <div class="social-links" style="margin-top:18px">
+          <a href="#" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="#" class="social-link" aria-label="Twitter"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+          <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://wa.me/233202154489" class="social-link" aria-label="WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-width="0" fill="rgba(255,255,255,0.8)"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.523 5.847L.057 23.882l6.218-1.635A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-5.009-1.374l-.36-.214-3.689.97.984-3.595-.234-.369A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Products</div>
+        <ul class="footer-links">
+          <li><a href="#shop">Arduino Kits</a></li>
+          <li><a href="#shop">Robotics Cars</a></li>
+          <li><a href="#shop">Sensors & Modules</a></li>
+          <li><a href="#shop">Motor Drivers</a></li>
+          <li><a href="#shop">Batteries & Holders</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li>📍 Accra, Ghana</li>
+          <li>📞 +233 20 215 4489</li>
+          <li>✉️ wiserobotics@gmail.com</li>
+          <li style="margin-top:14px">
+            <a href="https://wa.me/233202154489" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;background:#25D366;color:#fff;padding:9px 18px;border-radius:50px;font-size:0.83rem;font-weight:700;font-family:var(--font-head);">WhatsApp Us</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2024 GET IT CHEAP. All rights reserved.</div>
+      <div class="powered-by">
+        Powered & Designed by <strong>WISEROBOTICS</strong>
+      </div>
+      <div style="display:flex;gap:20px">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- =============================================
+     CART DRAWER
+============================================= -->
+<div class="cart-overlay" id="cartOverlay" role="dialog" aria-modal="true" aria-label="Shopping cart"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Cart">
+  <div class="cart-header">
+    <div class="cart-title">Your Cart 🛒</div>
+    <button class="cart-close" id="cartClose" aria-label="Close cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-val" id="cartTotal">GH₵ 0.00</span>
+    </div>
+    <button class="cart-checkout-btn" id="checkoutBtn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.523 5.847L.057 23.882l6.218-1.635A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-5.009-1.374l-.36-.214-3.689.97.984-3.595-.234-.369A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+      Checkout via WhatsApp
+    </button>
+  </div>
+</aside>
+
+<!-- =============================================
+     PRODUCT LIGHTBOX
+============================================= -->
+<div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-label="Product detail">
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <!-- Image panel -->
+    <div class="lightbox-imgs" id="lbImgsPanel">
+      <div class="lb-track" id="lbTrack">
+        <img id="lbImg0" src="" alt="Product view 1"/>
+        <img id="lbImg1" src="" alt="Product view 2"/>
+      </div>
+      <button class="lb-arrow prev" id="lbPrev" aria-label="Previous image">
+        <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="lb-arrow next" id="lbNext" aria-label="Next image">
+        <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="lb-dots">
+        <button class="lb-dot active" id="lbDot0" aria-label="Image 1"></button>
+        <button class="lb-dot" id="lbDot1" aria-label="Image 2"></button>
+      </div>
+    </div>
+    <!-- Info panel -->
+    <div class="lightbox-info" id="lbInfo">
+      <div class="lb-category" id="lbCategory"></div>
+      <div id="lbBadge"></div>
+      <div class="lb-name" id="lbName"></div>
+      <div class="lb-desc" id="lbDesc"></div>
+      <div class="lb-price" id="lbPrice"></div>
+      <button class="lb-add-btn" id="lbAddBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Add to Cart
+      </button>
+      <a class="lb-whatsapp-btn" id="lbWhatsappBtn" href="#" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.523 5.847L.057 23.882l6.218-1.635A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-5.009-1.374l-.36-.214-3.689.97.984-3.595-.234-.369A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+        Order on WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <span class="toast-dot"></span>
+  <span id="toastMsg">Added to cart!</span>
+</div>
+
+<!-- =============================================
+     JAVASCRIPT
+============================================= -->
+<script>
+  /* =============================================
+     PRODUCT DATA
+  ============================================= */
+  const PRODUCTS = [
+    { id:1,  name:"Arduino Starter Kit",              desc:"Complete beginner's kit with UNO board, jumpers, LEDs, resistors, and a step-by-step guide.",                      price:450, category:"electronics", badge:"Best Seller", imgs:["K1.png","K2.png"] },
+    { id:2,  name:"2WD Robotics Car Chassis",         desc:"Build and program your own 2WD smart car with ultrasonic sensors and IR remote control.",                          price:85, category:"robotics",    badge:"Popular",    imgs:["2W1.png","2W2.png"] },
+    { id:3,  name:"4WD Robotics Car Chassis",         desc:"Sturdy 4-wheel drive chassis for robotics projects — compatible with Arduino and Raspberry Pi.",                   price:135,  category:"robotics",    badge:null,         imgs:["4W1.png","4W2.png"] },
+    { id:4,  name:"37 Sensors Kit Pack",              desc:"37 sensors in one kit: temperature, humidity, IR, ultrasonic, soil moisture, and more.",                           price:250,  category:"electronics", badge:"New",         imgs:["37S1.png","37S2.png"] },
+    { id:5,  name:"Electronics Block Kit",            desc:"Modular snap-together electronics blocks — perfect for beginners learning circuits without soldering.",             price:550, category:"stem",        badge:null,         imgs:["EB1.png","EB2.png"] },
+    { id:6,  name:"L293D Motor Driver Module",        desc:"Dual H-bridge motor driver IC module — ideal for controlling DC and stepper motors with Arduino.",                 price:35, category:"electronics", badge:"Top Pick",    imgs:["L293D1.png","L293D2.png"] },
+    { id:7,  name:"L298N Motor Driver Module",        desc:"High-power dual H-bridge driver for DC and stepper motors — supports up to 2A per channel.",                      price:32, category:"electronics", badge:null,         imgs:["L298N1.png","L298N2.png"] },
+    { id:8,  name:"Servo Motor SG90",                 desc:"Lightweight 9g micro servo motor with 180° rotation — great for robot arms, RC cars, and more.",                  price:35, category:"robotics",    badge:"New",        imgs:["S1.png","S2.png"] },
+    { id:9,  name:"3.7V 18500 1400mAh Lithium Battery", desc:"Rechargeable lithium-ion battery — reliable power source for robotics, drones, and electronics.",              price:20, category:"electronics", badge:null,         imgs:["b1.png","b2.png"] },
+    { id:10, name:"18650 3.7V Battery Holder",        desc:"Durable battery holder for 18650 cells — with leads for easy connection to your projects.",                       price:30,  category:"electronics", badge:null,         imgs:["bc1.png","bc2.png"] }
+  ];
+
+  /* =============================================
+     CART STATE
+  ============================================= */
+  let cart = JSON.parse(localStorage.getItem('wr_cart') || '[]');
+
+  function saveCart() { localStorage.setItem('wr_cart', JSON.stringify(cart)); }
+  function getCartCount() { return cart.reduce((s,i) => s + i.qty, 0); }
+  function getCartTotal() { return cart.reduce((s,i) => s + i.price * i.qty, 0); }
+
+  function addToCart(id, fromLightbox) {
+    const p = PRODUCTS.find(p => p.id === id);
+    if (!p) return;
+    const existing = cart.find(i => i.id === id);
+    if (existing) existing.qty++;
+    else cart.push({ id:p.id, name:p.name, price:p.price, img:p.imgs[0], qty:1 });
+    saveCart();
+    updateCartUI();
+    showToast(`✓ ${p.name} added to cart`);
+
+    // Flash card button
+    const btn = document.querySelector(`[data-add="${id}"]`);
+    if (btn) {
+      btn.classList.add('added'); btn.textContent = '✓ Added';
+      setTimeout(() => {
+        btn.classList.remove('added');
+        btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add`;
+      }, 1800);
+    }
+
+    // Flash lightbox button
+    if (fromLightbox) {
+      const lbBtn = document.getElementById('lbAddBtn');
+      if (lbBtn) {
+        lbBtn.classList.add('added'); lbBtn.textContent = '✓ Added to Cart';
+        setTimeout(() => { lbBtn.classList.remove('added'); lbBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add to Cart`; }, 1800);
+      }
+    }
+  }
+
+  function removeFromCart(id) { cart = cart.filter(i => i.id !== id); saveCart(); updateCartUI(); }
+  function changeQty(id, delta) {
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) removeFromCart(id);
+    else { saveCart(); updateCartUI(); }
+  }
+
+  function updateCartUI() {
+    const count = getCartCount();
+    const total = getCartTotal();
+    const countEl = document.getElementById('cartCount');
+    countEl.textContent = count;
+    countEl.classList.toggle('show', count > 0);
+    document.getElementById('cartTotal').textContent = `GH₵ ${total.toFixed(2)}`;
+    const itemsEl = document.getElementById('cartItems');
+    if (cart.length === 0) {
+      itemsEl.innerHTML = `<div class="cart-empty"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><p>Your cart is empty.<br>Add some products to get started!</p></div>`;
+      document.getElementById('checkoutBtn').style.opacity = '0.5';
+      document.getElementById('checkoutBtn').style.pointerEvents = 'none';
+    } else {
+      document.getElementById('checkoutBtn').style.opacity = '1';
+      document.getElementById('checkoutBtn').style.pointerEvents = 'auto';
+      itemsEl.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div class="cart-item-img"><img src="${item.img}" alt="${item.name}" loading="lazy"/></div>
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-price">GH₵ ${item.price.toFixed(2)}</div>
+            <div class="cart-item-controls">
+              <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+              <span class="qty-num">${item.qty}</span>
+              <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+              <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+  }
+
+  /* =============================================
+     WHATSAPP CHECKOUT
+  ============================================= */
+  function checkoutWhatsApp() {
+    if (cart.length === 0) return;
+    const total = getCartTotal();
+    const lines = cart.map(i => `• ${i.name} x${i.qty} — GH₵${(i.price*i.qty).toFixed(2)}`).join('\n');
+    const msg = encodeURIComponent(`Hello GET IT CHEAP! 👋\n\nI'd like to order:\n\n${lines}\n\n*Total: GH₵${total.toFixed(2)}*\n\nPlease confirm availability and delivery details. Thank you!`);
+    window.open(`https://wa.me/233202154489?text=${msg}`, '_blank');
+  }
+
+  /* =============================================
+     IMAGE GALLERY TOGGLE (on cards)
+  ============================================= */
+  const imgState = {};
+
+  function switchImage(id, index, e) {
+    if (e) e.stopPropagation();
+    imgState[id] = index;
+    const track = document.querySelector(`.img-track[data-id="${id}"]`);
+    const dots  = document.querySelectorAll(`.img-dot[data-id="${id}"]`);
+    if (!track) return;
+    track.classList.toggle('show-second', index === 1);
+    dots.forEach((d,i) => d.classList.toggle('active', i === index));
+  }
+
+  /* =============================================
+     LIGHTBOX
+  ============================================= */
+  let lbProductId = null;
+  let lbSlot = 0;
+
+  function openLightbox(id) {
+    const p = PRODUCTS.find(p => p.id === id);
+    if (!p) return;
+    lbProductId = id;
+    lbSlot = 0;
+
+    // Populate images
+    document.getElementById('lbImg0').src = p.imgs[0];
+    document.getElementById('lbImg1').src = p.imgs[1];
+    document.getElementById('lbTrack').classList.remove('show-second');
+    document.getElementById('lbDot0').classList.add('active');
+    document.getElementById('lbDot1').classList.remove('active');
+
+    // Populate info
+    document.getElementById('lbCategory').textContent = p.category;
+    document.getElementById('lbName').textContent = p.name;
+    document.getElementById('lbDesc').textContent = p.desc;
+    document.getElementById('lbPrice').innerHTML = `<span class="lb-currency">GH₵ </span>${p.price.toFixed(2)}`;
+
+    const badgeEl = document.getElementById('lbBadge');
+    badgeEl.innerHTML = p.badge ? `<div class="lb-badge">${p.badge}</div>` : '';
+
+    // WhatsApp single-product link
+    const msg = encodeURIComponent(`Hello GET IT CHEAP! 👋\n\nI'd like to order:\n• ${p.name} — GH₵${p.price.toFixed(2)}\n\nPlease confirm availability and delivery. Thank you!`);
+    document.getElementById('lbWhatsappBtn').href = `https://wa.me/233202154489?text=${msg}`;
+
+    // Add to cart button
+    const lbAddBtn = document.getElementById('lbAddBtn');
+    lbAddBtn.classList.remove('added');
+    lbAddBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add to Cart`;
+    lbAddBtn.onclick = () => addToCart(lbProductId, true);
+
+    // Open
+    document.getElementById('lightboxOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightboxOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function lbSwitchImage(index) {
+    lbSlot = index;
+    document.getElementById('lbTrack').classList.toggle('show-second', index === 1);
+    document.getElementById('lbDot0').classList.toggle('active', index === 0);
+    document.getElementById('lbDot1').classList.toggle('active', index === 1);
+  }
+
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightboxOverlay').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeLightbox(); });
+  document.getElementById('lbPrev').addEventListener('click', () => lbSwitchImage(0));
+  document.getElementById('lbNext').addEventListener('click', () => lbSwitchImage(1));
+  document.getElementById('lbDot0').addEventListener('click', () => lbSwitchImage(0));
+  document.getElementById('lbDot1').addEventListener('click', () => lbSwitchImage(1));
+
+  // Keyboard close
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+  /* =============================================
+     RENDER PRODUCTS
+  ============================================= */
+  function renderProducts(filter = 'all') {
+    const grid = document.getElementById('productsGrid');
+    const filtered = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
+    grid.innerHTML = filtered.map((p, i) => {
+      imgState[p.id] = 0;
+      return `
+      <article class="product-card fade-in" style="animation-delay:${i*0.06}s" data-category="${p.category}" onclick="openLightbox(${p.id})">
+        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+        <div class="product-img-wrap">
+          <div class="img-track" data-id="${p.id}">
+            <img src="${p.imgs[0]}" alt="${p.name} – view 1" loading="lazy"/>
+            <img src="${p.imgs[1]}" alt="${p.name} – view 2" loading="lazy"/>
+          </div>
+          <button class="img-arrow prev" onclick="switchImage(${p.id},0,event)" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="img-arrow next" onclick="switchImage(${p.id},1,event)" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <div class="img-dots">
+            <button class="img-dot active" data-id="${p.id}" onclick="switchImage(${p.id},0,event)" aria-label="Image 1"></button>
+            <button class="img-dot"        data-id="${p.id}" onclick="switchImage(${p.id},1,event)" aria-label="Image 2"></button>
+          </div>
+          <div class="zoom-hint">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-category">${p.category}</div>
+          <h3 class="product-name">${p.name}</h3>
+          <p class="product-desc">${p.desc}</p>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">GH₵ </span>${p.price.toFixed(2)}</div>
+            <button class="add-to-cart-btn" data-add="${p.id}" onclick="event.stopPropagation();addToCart(${p.id},false)" aria-label="Add ${p.name} to cart">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add
+            </button>
+          </div>
+        </div>
+      </article>`;
+    }).join('');
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.product-card.fade-in').forEach(el => {
+        el.getBoundingClientRect();
+        el.classList.add('visible');
+      });
+    });
+  }
+
+  /* =============================================
+     FILTER TABS
+  ============================================= */
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderProducts(tab.dataset.filter);
+    });
+  });
+
+  /* =============================================
+     CART DRAWER
+  ============================================= */
+  const cartDrawer  = document.getElementById('cartDrawer');
+  const cartOverlay = document.getElementById('cartOverlay');
+
+  function openCart()  { cartDrawer.classList.add('open');    cartOverlay.classList.add('open');    document.body.style.overflow = 'hidden'; }
+  function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+  document.getElementById('cartToggle').addEventListener('click', openCart);
+  document.getElementById('cartClose').addEventListener('click', closeCart);
+  cartOverlay.addEventListener('click', closeCart);
+  document.getElementById('checkoutBtn').addEventListener('click', checkoutWhatsApp);
+
+  /* =============================================
+     HAMBURGER
+  ============================================= */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); }));
+
+  /* =============================================
+     STICKY HEADER
+  ============================================= */
+  window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 10));
+
+  /* =============================================
+     SCROLL FADE-IN
+  ============================================= */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  /* =============================================
+     CONTACT FORM
+  ============================================= */
+  document.getElementById('formSubmit').addEventListener('click', () => {
+    const name  = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const msg   = document.getElementById('message').value.trim();
+    if (!name || !email || !msg) { showToast('Please fill in all fields'); return; }
+    document.getElementById('formSuccess').classList.add('show');
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('message').value = '';
+    setTimeout(() => document.getElementById('formSuccess').classList.remove('show'), 5000);
+  });
+
+  /* =============================================
+     TOAST
+  ============================================= */
+  let toastTimer;
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  /* =============================================
+     INIT
+  ============================================= */
+  renderProducts();
+  updateCartUI();
+  setTimeout(() => document.querySelectorAll('.fade-in').forEach(el => observer.observe(el)), 100);
+</script>
+</body>
+</html>
