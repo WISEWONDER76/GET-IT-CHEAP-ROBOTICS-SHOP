@@ -582,6 +582,370 @@
       .lightbox-info { padding: 24px 20px; }
       .footer-bottom { flex-direction: column; text-align: center; }
     }
+
+    /* =============================================
+       ADMIN PANEL
+    ============================================= */
+    #adminOverlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: #0B1A33;
+      display: none; flex-direction: column;
+      font-family: var(--font-body);
+    }
+    #adminOverlay.open { display: flex; }
+
+    /* Login screen */
+    #adminLogin {
+      display: flex; align-items: center; justify-content: center;
+      flex: 1; background: linear-gradient(135deg,#0B1A33,#132240);
+    }
+    .admin-login-box {
+      background: #fff; border-radius: 20px; padding: 48px 40px;
+      width: 100%; max-width: 400px; text-align: center;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+    }
+    .admin-login-logo {
+      width: 56px; height: 56px; border-radius: 14px; overflow: hidden;
+      margin: 0 auto 18px; background: var(--sky);
+    }
+    .admin-login-logo img { width:100%; height:100%; object-fit:contain; }
+    .admin-login-title { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--navy); margin-bottom: 6px; }
+    .admin-login-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 28px; }
+    .admin-login-input {
+      width: 100%; padding: 13px 16px; border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); font-size: 1rem; font-family: var(--font-body);
+      color: var(--text); outline: none; text-align: center; letter-spacing: 0.15em;
+      margin-bottom: 14px; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .admin-login-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21,83,224,0.12); }
+    .admin-login-btn {
+      width: 100%; padding: 13px; background: var(--blue); color: #fff;
+      border-radius: 50px; font-family: var(--font-head); font-weight: 700;
+      font-size: 0.95rem; cursor: pointer; border: none;
+      box-shadow: 0 4px 20px rgba(21,83,224,0.3); transition: all 0.22s;
+    }
+    .admin-login-btn:hover { background: var(--blue-glow); transform: translateY(-2px); }
+    .admin-login-err { color: #FF4D6D; font-size: 0.82rem; margin-top: 10px; display: none; }
+    .admin-login-err.show { display: block; }
+
+    /* Admin dashboard */
+    
+    .admin-topbar {
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 0 28px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .admin-topbar-title { font-family: var(--font-head); font-weight: 800; font-size: 1rem; color: var(--navy); display: flex; align-items: center; gap: 10px; }
+    .admin-topbar-title span { font-size: 0.75rem; background: var(--sky); color: var(--blue); padding: 3px 10px; border-radius: 20px; font-weight: 700; }
+    .admin-topbar-actions { display: flex; gap: 10px; }
+    .admin-btn {
+      padding: 8px 18px; border-radius: 50px; font-family: var(--font-head);
+      font-weight: 700; font-size: 0.82rem; cursor: pointer; border: none;
+      transition: all 0.2s;
+    }
+    .admin-btn-primary { background: var(--blue); color: #fff; }
+    .admin-btn-primary:hover { background: var(--blue-glow); }
+    .admin-btn-danger { background: #FEE2E2; color: #DC2626; }
+    .admin-btn-danger:hover { background: #FECACA; }
+    .admin-btn-ghost { background: var(--sky); color: var(--navy); }
+    .admin-btn-ghost:hover { background: #D6E4FF; }
+
+    .admin-body { flex: 1; overflow-y: auto; padding: 28px; background: #F8FAFF; }
+
+    .admin-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
+    .admin-stat-card { background: #fff; border-radius: var(--radius-sm); padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .admin-stat-n { font-family: var(--font-head); font-weight: 800; font-size: 1.6rem; color: var(--navy); }
+    .admin-stat-l { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+
+    .admin-section-title {
+      font-family: var(--font-head); font-weight: 800; font-size: 1rem;
+      color: var(--navy); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;
+    }
+
+    /* Product table */
+    .admin-table-wrap { background: #fff; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-sm); }
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th { background: var(--sky); color: var(--navy); font-family: var(--font-head); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 16px; text-align: left; }
+    .admin-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 0.88rem; color: var(--text); vertical-align: middle; }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tr:hover td { background: #F8FAFF; }
+    .admin-thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: var(--sky); }
+    .admin-badge { display: inline-block; background: var(--accent); color: var(--navy); font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; }
+    .admin-price { font-family: var(--font-head); font-weight: 800; color: var(--blue); }
+    .admin-actions { display: flex; gap: 6px; }
+    .admin-edit-btn { padding: 5px 12px; background: var(--sky); color: var(--navy); border-radius: 20px; font-size: 0.75rem; font-weight: 700; font-family: var(--font-head); cursor: pointer; border: none; transition: background 0.2s; }
+    .admin-edit-btn:hover { background: #D6E4FF; }
+    .admin-del-btn { padding: 5px 12px; background: #FEE2E2; color: #DC2626; border-radius: 20px; font-size: 0.75rem; font-weight: 700; font-family: var(--font-head); cursor: pointer; border: none; transition: background 0.2s; }
+    .admin-del-btn:hover { background: #FECACA; }
+
+    /* Product form modal */
+    #adminFormModal {
+      position: fixed; inset: 0; z-index: 9100;
+      background: rgba(11,26,51,0.7); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    #adminFormModal.open { display: flex; }
+    .admin-form-box {
+      background: #fff; border-radius: 20px; width: 100%; max-width: 560px;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.35);
+      padding: 32px;
+    }
+    .admin-form-title { font-family: var(--font-head); font-weight: 800; font-size: 1.1rem; color: var(--navy); margin-bottom: 24px; }
+    .admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .admin-form-full { grid-column: 1/-1; }
+    .admin-form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+    .admin-form-input, .admin-form-select, .admin-form-textarea {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.9rem;
+      color: var(--text); background: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .admin-form-input:focus, .admin-form-select:focus, .admin-form-textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21,83,224,0.1); }
+    .admin-form-textarea { resize: vertical; min-height: 80px; }
+    .admin-form-hint { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+    .admin-form-btns { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
+    .admin-save-btn { padding: 11px 28px; background: var(--blue); color: #fff; border-radius: 50px; font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; border: none; cursor: pointer; transition: all 0.22s; box-shadow: 0 4px 16px rgba(21,83,224,0.28); }
+    .admin-save-btn:hover { background: var(--blue-glow); }
+    .admin-cancel-btn { padding: 11px 28px; background: var(--sky); color: var(--navy); border-radius: 50px; font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; border: none; cursor: pointer; transition: background 0.2s; }
+    .admin-cancel-btn:hover { background: #D6E4FF; }
+
+    @media (max-width: 768px) {
+      .admin-stats { grid-template-columns: 1fr 1fr; }
+      .admin-table th:nth-child(4), .admin-table td:nth-child(4) { display: none; }
+      .admin-form-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .admin-stats { grid-template-columns: 1fr; }
+      .admin-body { padding: 16px; }
+    }
+
+
+    /* =============================================
+       ADMIN PANEL STYLES
+    ============================================= */
+    #adminOverlay {
+      position: fixed; inset: 0; z-index: 8000;
+      background: #0B1A33;
+      display: none; flex-direction: column;
+      overflow-y: auto;
+    }
+    #adminOverlay.open { display: flex; }
+
+    /* Login screen */
+    #adminLogin {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 40px 20px;
+    }
+    .admin-login-box {
+      background: #fff; border-radius: 20px;
+      padding: 48px 40px; width: 100%; max-width: 400px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+    }
+    .admin-login-logo img { width: 64px; height: 64px; border-radius: 12px; object-fit: contain; }
+    .admin-login-title { font-family: var(--font-head); font-weight: 800; font-size: 1.5rem; color: var(--navy); }
+    .admin-login-sub { font-size: 0.82rem; color: var(--muted); margin-top: -8px; }
+    .admin-login-input {
+      width: 100%; padding: 13px 16px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 0.95rem; font-family: var(--font-body);
+      outline: none; color: var(--text); text-align: center; letter-spacing: 3px;
+    }
+    .admin-login-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21,83,224,0.1); }
+    .admin-login-btn {
+      width: 100%; background: var(--blue); color: #fff;
+      font-family: var(--font-head); font-weight: 700; font-size: 1rem;
+      padding: 14px; border-radius: 50px; border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 4px 20px rgba(21,83,224,0.35);
+    }
+    .admin-login-btn:hover { background: var(--blue-glow); transform: translateY(-1px); }
+    .admin-login-err { color: #FF4D6D; font-size: 0.82rem; font-weight: 600; display: none; }
+    .admin-login-hint { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+    .admin-login-hint code { background: var(--sky); padding: 2px 6px; border-radius: 4px; color: var(--blue); font-weight: 700; }
+
+    /* Dashboard */
+    #adminDash { display: none; flex-direction: column; flex: 1; }
+    .admin-topbar {
+      background: #132240; padding: 16px 32px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .admin-topbar-title { font-family: var(--font-head); font-weight: 800; font-size: 1rem; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .admin-topbar-title span { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 3px 10px; border-radius: 20px; color: rgba(255,255,255,0.6); font-weight: 500; }
+    .admin-topbar-actions { display: flex; gap: 10px; }
+    .admin-btn { font-family: var(--font-head); font-weight: 700; font-size: 0.82rem; padding: 9px 18px; border-radius: 50px; border: none; cursor: pointer; transition: all 0.2s; }
+    .admin-btn-primary { background: var(--accent); color: var(--navy); }
+    .admin-btn-primary:hover { background: #00c88a; }
+    .admin-btn-ghost { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); }
+    .admin-btn-ghost:hover { background: rgba(255,255,255,0.18); }
+
+    .admin-body { padding: 32px; flex: 1; }
+    .admin-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 32px; }
+    .admin-stat-card { background: #132240; border-radius: 14px; padding: 20px 24px; border: 1px solid rgba(255,255,255,0.07); }
+    .admin-stat-n { font-family: var(--font-head); font-weight: 800; font-size: 2rem; color: var(--accent); }
+    .admin-stat-l { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+    .admin-section-title {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-head); font-weight: 700; font-size: 0.88rem;
+      color: rgba(255,255,255,0.6); letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .admin-price-note { font-size: 0.72rem; color: rgba(255,255,255,0.35); font-weight: 400; text-transform: none; letter-spacing: 0; }
+
+    .admin-table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); }
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th { background: #132240; color: rgba(255,255,255,0.5); font-family: var(--font-head); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 14px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .admin-table td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tr:hover td { background: rgba(255,255,255,0.03); }
+    .admin-thumb { width: 52px; height: 52px; border-radius: 8px; object-fit: cover; background: var(--sky); display: block; }
+    .admin-prod-name { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; color: #fff; }
+    .admin-prod-id { font-size: 0.7rem; color: rgba(255,255,255,0.3); margin-top: 2px; }
+    .admin-cat-badge { font-size: 0.7rem; font-weight: 700; font-family: var(--font-head); padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .admin-cat-electronics { background: rgba(21,83,224,0.25); color: #7BA8FF; }
+    .admin-cat-robotics    { background: rgba(0,229,160,0.18); color: var(--accent); }
+    .admin-cat-stem        { background: rgba(255,209,102,0.2); color: #FFD166; }
+    .admin-price-wrap { display: flex; align-items: center; gap: 6px; }
+    .admin-price-val { font-family: var(--font-head); font-weight: 700; color: #fff; font-size: 0.9rem; }
+    .admin-price-lock { font-size: 0.85rem; }
+    .admin-badge-pill { background: var(--accent); color: var(--navy); font-size: 0.68rem; font-weight: 800; font-family: var(--font-head); padding: 2px 8px; border-radius: 20px; }
+    .admin-no-badge { color: rgba(255,255,255,0.2); font-size: 0.88rem; }
+    .admin-action-btns { display: flex; gap: 6px; }
+    .admin-edit-btn, .admin-del-btn { font-family: var(--font-head); font-weight: 700; font-size: 0.75rem; padding: 6px 12px; border-radius: 20px; border: none; cursor: pointer; transition: all 0.2s; }
+    .admin-edit-btn { background: rgba(21,83,224,0.25); color: #7BA8FF; }
+    .admin-edit-btn:hover { background: rgba(21,83,224,0.4); }
+    .admin-del-btn  { background: rgba(255,77,109,0.2); color: #FF6B8A; }
+    .admin-del-btn:hover  { background: rgba(255,77,109,0.35); }
+
+    /* Product form modal */
+    #adminFormModal {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(5,10,25,0.85); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    #adminFormModal.open { display: flex; }
+    .admin-form-box {
+      background: #fff; border-radius: 20px; padding: 36px 32px;
+      width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    }
+    .admin-form-title { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; color: var(--navy); margin-bottom: 24px; }
+    .admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .admin-form-full { grid-column: 1 / -1; }
+    .admin-form-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .admin-form-input, .admin-form-select, .admin-form-textarea {
+      width: 100%; padding: 11px 14px; border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.9rem;
+      color: var(--text); background: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .admin-form-input:focus, .admin-form-select:focus, .admin-form-textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21,83,224,0.1); }
+    .admin-form-input:disabled { background: #f5f5f5; color: var(--muted); cursor: not-allowed; }
+    .admin-form-textarea { resize: vertical; min-height: 90px; }
+    .admin-form-hint { font-size: 0.72rem; color: var(--muted); margin-top: 5px; }
+    .admin-form-btns { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+    .admin-cancel-btn { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; padding: 12px 24px; border-radius: 50px; border: 2px solid var(--border); color: var(--muted); cursor: pointer; transition: all 0.2s; background: #fff; }
+    .admin-cancel-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .admin-save-btn { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; padding: 12px 28px; border-radius: 50px; background: var(--blue); color: #fff; border: none; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 16px rgba(21,83,224,0.3); }
+    .admin-save-btn:hover { background: var(--blue-glow); transform: translateY(-1px); }
+
+    /* Responsive admin */
+    @media (max-width: 768px) {
+      .admin-stats { grid-template-columns: 1fr 1fr; }
+      .admin-form-grid { grid-template-columns: 1fr; }
+      .admin-topbar { padding: 14px 16px; }
+      .admin-body { padding: 16px; }
+    }
+    @media (max-width: 480px) {
+      .admin-stats { grid-template-columns: 1fr; }
+      .admin-form-box { padding: 24px 18px; }
+      .admin-topbar-title { font-size: 0.85rem; }
+    }
+
+
+    /* =============================================
+       PRODUCT SEARCH BAR
+    ============================================= */
+    .shop-header { margin-bottom: 24px; }
+
+    .search-wrap {
+      position: relative;
+      width: 100%;
+      margin: 0 0 12px 0;
+      display: block;
+    }
+    .search-icon {
+      position: absolute;
+      left: 16px; top: 50%;
+      transform: translateY(-50%);
+      width: 18px; height: 18px;
+      stroke: var(--muted);
+      fill: none;
+      pointer-events: none;
+      transition: stroke 0.2s;
+      z-index: 1;
+    }
+    .search-wrap:focus-within .search-icon { stroke: var(--blue); }
+    .search-input {
+      display: block;
+      width: 100%;
+      padding: 14px 48px 14px 46px;
+      border: 2px solid rgba(21,83,224,0.2);
+      border-radius: 50px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: #0B1A33;
+      background: #FFFFFF;
+      outline: none;
+      box-shadow: 0 2px 12px rgba(11,26,51,0.08);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+      box-sizing: border-box;
+    }
+    .search-input::placeholder { color: #9AABBF; font-size: 0.92rem; }
+    .search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
+    .search-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(21,83,224,0.1);
+    }
+    .search-clear {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--sky);
+      border: none;
+      cursor: pointer;
+      display: none;
+      place-items: center;
+      transition: background 0.2s;
+      z-index: 1;
+    }
+    .search-clear.show { display: grid; }
+    .search-clear:hover { background: #D6E4FF; }
+    .search-clear svg { width: 13px; height: 13px; stroke: var(--navy); fill: none; }
+    .search-results-info {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      min-height: 20px;
+    }
+    .search-results-info strong { color: var(--blue); font-weight: 700; }
+    .no-results {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--muted);
+    }
+    .no-results svg { width: 48px; height: 48px; stroke: var(--border); margin: 0 auto 14px; fill: none; }
+    .no-results-title { font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+    .no-results-sub { font-size: 0.85rem; }
+
   </style>
 </head>
 <body>
@@ -731,6 +1095,28 @@
         <button class="filter-tab" data-filter="stem">STEM Kits</button>
       </div>
     </div>
+    <!-- Search bar -->
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input
+        class="search-input"
+        id="productSearch"
+        type="search"
+        placeholder="Search products..."
+        autocomplete="off"
+        aria-label="Search products"
+      />
+      <button class="search-clear" id="searchClear" aria-label="Clear search">
+        <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <!-- Results info -->
+    <div class="search-results-info" id="searchInfo"></div>
+    <!-- Products grid -->
     <div class="products-grid" id="productsGrid" aria-label="Product list"></div>
   </div>
 </section>
@@ -991,46 +1377,253 @@
   <span id="toastMsg">Added to cart!</span>
 </div>
 
+
+
+<!-- =============================================
+     ADMIN PANEL OVERLAY
+     Access: navigate to #admin in URL or
+     click "Admin" link in footer
+============================================= -->
+<div id="adminOverlay" role="dialog" aria-label="Admin Panel">
+
+  <!-- LOGIN SCREEN -->
+  <div id="adminLogin">
+    <div class="admin-login-box">
+      <div class="admin-login-logo">
+        <img src="logo.jpeg" alt="Logo" onerror="this.style.display='none'"/>
+      </div>
+      <div class="admin-login-title">Admin Panel</div>
+      <div class="admin-login-sub">GET IT CHEAP · Product Manager</div>
+      <input class="admin-login-input" id="adminPwInput" type="password" placeholder="Enter admin password" autocomplete="off"/>
+      <button class="admin-login-btn" id="adminLoginBtn">Sign In →</button>
+      <div class="admin-login-err" id="adminLoginErr">Incorrect password. Try again.</div>
+      <div class="admin-login-hint">Default password: <code>wiserobotics2024</code></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="adminDash">
+    <div class="admin-topbar">
+      <div class="admin-topbar-title">
+        🛠 Product Manager &nbsp;<span id="adminProductCount">0 products</span>
+      </div>
+      <div class="admin-topbar-actions">
+        <button class="admin-btn admin-btn-primary" id="adminAddBtn">+ Add Product</button>
+        <button class="admin-btn admin-btn-ghost"   id="adminCloseBtn">✕ Exit</button>
+      </div>
+    </div>
+    <div class="admin-body">
+      <div class="admin-stats">
+        <div class="admin-stat-card"><div class="admin-stat-n" id="statTotal">0</div><div class="admin-stat-l">Total Products</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-n" id="statRobotics">0</div><div class="admin-stat-l">Robotics</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-n" id="statElectronics">0</div><div class="admin-stat-l">Electronics</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-n" id="statStem">0</div><div class="admin-stat-l">STEM Kits</div></div>
+      </div>
+      <div class="admin-section-title">
+        <span>All Products</span>
+        <span class="admin-price-note">🔒 = price locked in source code for security</span>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Preview</th>
+              <th>Product Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Badge</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT FORM MODAL -->
+<div id="adminFormModal">
+  <div class="admin-form-box">
+    <div class="admin-form-title" id="adminFormTitle">Add New Product</div>
+    <input type="hidden" id="adminEditId"/>
+    <div class="admin-form-grid">
+      <div>
+        <label class="admin-form-label">Product Name *</label>
+        <input class="admin-form-input" id="afName" type="text" placeholder="e.g. Arduino Starter Kit"/>
+      </div>
+      <div>
+        <label class="admin-form-label">Price (GH₵) *</label>
+        <input class="admin-form-input" id="afPrice" type="number" min="0" step="0.01" placeholder="e.g. 180"/>
+      </div>
+      <div>
+        <label class="admin-form-label">Category *</label>
+        <select class="admin-form-select" id="afCategory">
+          <option value="electronics">Electronics</option>
+          <option value="robotics">Robotics</option>
+          <option value="stem">STEM Kits</option>
+        </select>
+      </div>
+      <div>
+        <label class="admin-form-label">Badge (optional)</label>
+        <input class="admin-form-input" id="afBadge" type="text" placeholder="e.g. New, Best Seller"/>
+      </div>
+      <div class="admin-form-full">
+        <label class="admin-form-label">Description *</label>
+        <textarea class="admin-form-textarea" id="afDesc" placeholder="Short product description..."></textarea>
+      </div>
+      <div>
+        <label class="admin-form-label">Image 1 filename *</label>
+        <input class="admin-form-input" id="afImg1" type="text" placeholder="e.g. K1.png"/>
+        <div class="admin-form-hint">📁 Must be in same folder as this HTML file</div>
+      </div>
+      <div>
+        <label class="admin-form-label">Image 2 filename *</label>
+        <input class="admin-form-input" id="afImg2" type="text" placeholder="e.g. K2.png"/>
+        <div class="admin-form-hint">📁 Second view / alternate angle</div>
+      </div>
+    </div>
+    <div class="admin-form-btns">
+      <button class="admin-cancel-btn" id="adminFormCancel">Cancel</button>
+      <button class="admin-save-btn"   id="adminFormSave">Save Product</button>
+    </div>
+  </div>
+</div>
+
+
+
 <!-- =============================================
      JAVASCRIPT
 ============================================= -->
 <script>
-  /* =============================================
-     PRODUCT DATA
-  ============================================= */
-  const PRODUCTS = [
-    { id:1,  name:"Arduino Starter Kit",              desc:"Complete beginner's kit with UNO board, jumpers, LEDs, resistors, and a step-by-step guide.",                      price:450, category:"electronics", badge:"Best Seller", imgs:["K1.png","K2.png"] },
-    { id:2,  name:"2WD Robotics Car Chassis",         desc:"Build and program your own 2WD smart car with ultrasonic sensors and IR remote control.",                          price:85, category:"robotics",    badge:"Popular",    imgs:["2W1.png","2W2.png"] },
-    { id:3,  name:"4WD Robotics Car Chassis",         desc:"Sturdy 4-wheel drive chassis for robotics projects — compatible with Arduino and Raspberry Pi.",                   price:135,  category:"robotics",    badge:null,         imgs:["4W1.png","4W2.png"] },
-    { id:4,  name:"37 Sensors Kit Pack",              desc:"37 sensors in one kit: temperature, humidity, IR, ultrasonic, soil moisture, and more.",                           price:250,  category:"electronics", badge:"New",         imgs:["37S1.png","37S2.png"] },
-    { id:5,  name:"Electronics Block Kit",            desc:"Modular snap-together electronics blocks — perfect for beginners learning circuits without soldering.",             price:550, category:"stem",        badge:null,         imgs:["EB1.png","EB2.png"] },
-    { id:6,  name:"L293D Motor Driver Module",        desc:"Dual H-bridge motor driver IC module — ideal for controlling DC and stepper motors with Arduino.",                 price:35, category:"electronics", badge:"Top Pick",    imgs:["L293D1.png","L293D2.png"] },
-    { id:7,  name:"L298N Motor Driver Module",        desc:"High-power dual H-bridge driver for DC and stepper motors — supports up to 2A per channel.",                      price:32, category:"electronics", badge:null,         imgs:["L298N1.png","L298N2.png"] },
-    { id:8,  name:"Servo Motor SG90",                 desc:"Lightweight 9g micro servo motor with 180° rotation — great for robot arms, RC cars, and more.",                  price:35, category:"robotics",    badge:"New",        imgs:["S1.png","S2.png"] },
-    { id:9,  name:"3.7V 18500 1400mAh Lithium Battery", desc:"Rechargeable lithium-ion battery — reliable power source for robotics, drones, and electronics.",              price:20, category:"electronics", badge:null,         imgs:["b1.png","b2.png"] },
-    { id:10, name:"18650 3.7V Battery Holder",        desc:"Durable battery holder for 18650 cells — with leads for easy connection to your projects.",                       price:30,  category:"electronics", badge:null,         imgs:["bc1.png","bc2.png"] }
-  ];
+  /* ============================================================
+     PRICE PROTECTION SYSTEM
+     Prices are frozen in a sealed closure. The rendered DOM
+     prices are display-only. All cart totals and WhatsApp
+     checkout messages are always recalculated from MASTER_PRICES,
+     which cannot be accessed or modified from the browser console
+     without knowing the internal variable name.
+  ============================================================ */
+
+  // MASTER product data — this is the single source of truth
+  const _STORE = (() => {
+    // Prices encoded as (encoded_value XOR key) to deter casual console edits
+    const _k = 0xA3;
+    const _enc = (n) => n ^ _k; // simple deterrent — not cryptography
+    const _dec = (n) => n ^ _k;
+
+    const _raw = [
+      { id:1,  name:"Arduino Starter Kit",               desc:"Complete beginner\'s kit with UNO board, jumpers, LEDs, resistors, and a step-by-step guide.",    _p:_enc(430), category:"electronics", badge:"Best Seller", imgs:["K1.png","K2.png"] },
+      { id:2,  name:"2WD Robotics Car Chassis",          desc:"Build and program your own 2WD smart car with ultrasonic sensors and IR remote control.",           _p:_enc(80), category:"robotics",    badge:"Popular",    imgs:["2W1.png","2W2.png"] },
+      { id:3,  name:"4WD Robotics Car Chassis",          desc:"Sturdy 4-wheel drive chassis — compatible with Arduino and Raspberry Pi.",                          _p:_enc(130),  category:"robotics",    badge:null,         imgs:["4W1.png","4W2.png"] },
+      { id:4,  name:"37 Sensors Kit Pack",               desc:"37 sensors in one kit: temperature, humidity, IR, ultrasonic, soil moisture, and more.",            _p:_enc(260),  category:"electronics", badge:"New",         imgs:["37S1.png","37S2.png"] },
+      { id:5,  name:"Electronics Block Kit",             desc:"Modular snap-together electronics blocks — perfect for beginners learning circuits without soldering.", _p:_enc(550), category:"stem",     badge:null,         imgs:["EB1.png","EB2.png"] },
+      { id:6,  name:"L293D Motor Driver Module",         desc:"Dual H-bridge motor driver — ideal for controlling DC and stepper motors with Arduino.",             _p:_enc(35), category:"electronics", badge:"Top Pick",    imgs:["L293D1.png","L293D2.png"] },
+      { id:7,  name:"L298N Motor Driver Module",         desc:"High-power dual H-bridge driver — supports up to 2A per channel.",                                  _p:_enc(30), category:"electronics", badge:null,         imgs:["L298N1.png","L298N2.png"] },
+      { id:8,  name:"Servo Motor SG90",                  desc:"Lightweight 9g micro servo motor with 180° rotation — great for robot arms and RC cars.",           _p:_enc(30), category:"robotics",    badge:"New",        imgs:["S1.png","S2.png"] },
+      { id:9,  name:"3.7V 18500 2400mAh Lithium Battery",desc:"Rechargeable lithium-ion battery — reliable power for robotics, drones, and electronics.",         _p:_enc(20), category:"electronics", badge:null,         imgs:["b1.png","b2.png"] },
+      { id:10, name:"18650 3.7V Battery Holder",         desc:"Durable battery holder for 18650 cells — with leads for easy connection to your projects.",         _p:_enc(28),  category:"electronics", badge:null,         imgs:["bc1.png","bc2.png"] }
+    ];
+
+    // Load admin-added or admin-edited products from localStorage
+    const _adminKey = '__gic_products__';
+    const _loadAdmin = () => { try { return JSON.parse(localStorage.getItem(_adminKey) || 'null'); } catch(e) { return null; } };
+    const _saveAdmin = (arr) => localStorage.setItem(_adminKey, JSON.stringify(arr));
+
+    let _products = null;
+
+    function _build() {
+      // Start from the master list (decoded prices)
+      const base = _raw.map(p => ({ ...p, price: _dec(p._p) }));
+      // Merge admin overrides/additions
+      const adminData = _loadAdmin();
+      if (!adminData) { _products = base; return; }
+      // Admin can change name/desc/category/badge/imgs but NOT price for existing items
+      // Admin CAN set price for NEW items they add
+      const merged = [...base];
+      adminData.forEach(ap => {
+        const existing = merged.find(p => p.id === ap.id);
+        if (existing) {
+          // Overwrite everything EXCEPT price (price is locked from master)
+          existing.name     = ap.name     || existing.name;
+          existing.desc     = ap.desc     || existing.desc;
+          existing.category = ap.category || existing.category;
+          existing.badge    = ap.badge !== undefined ? ap.badge : existing.badge;
+          existing.imgs     = ap.imgs     || existing.imgs;
+          if (ap._hidden) existing._hidden = true;
+          // Price override only allowed if this is an admin-created product (id > 10000)
+        } else if (ap.id > 10000 && !ap._hidden) {
+          // New product added by admin — use their price
+          merged.push({ ...ap });
+        } else if (ap._hidden) {
+          // Mark existing product as hidden
+          if (existing) existing._hidden = true;
+        }
+      });
+      // Filter out products hidden/deleted by admin
+      _products = merged.filter(p => !p._hidden);
+    }
+
+    return {
+      get products() { if (!_products) _build(); return _products; },
+      getPrice(id) {
+        // Always get price from the LOCKED master list for original items
+        const master = _raw.find(p => p.id === id);
+        if (master) return _dec(master._p);
+        // For admin-added products, get from admin data
+        const adminData = _loadAdmin();
+        if (adminData) { const ap = adminData.find(p => p.id === id); if (ap) return ap.price; }
+        return 0;
+      },
+      reload() { _products = null; },
+      adminSave(arr) { _saveAdmin(arr); this.reload(); },
+      adminLoad() { return _loadAdmin() || []; },
+    };
+  })();
+
+  // Public accessor — no prices exposed
+  function getProducts() { return _STORE.products; }
+  // Price lookup — always from sealed store
+  function getTruePrice(id) { return _STORE.getPrice(id); }
 
   /* =============================================
-     CART STATE
+     CART STATE (localStorage)
+     Cart stores ONLY id, name, qty, img.
+     Price is NEVER stored in cart — always recalculated.
   ============================================= */
-  let cart = JSON.parse(localStorage.getItem('wr_cart') || '[]');
+  let cart = (() => {
+    try {
+      const raw = JSON.parse(localStorage.getItem('wr_cart') || '[]');
+      // Strip any price fields that might have been injected
+      return raw.map(({ id, name, qty, img }) => ({ id, name, qty: Math.max(1, parseInt(qty)||1), img }));
+    } catch(e) { return []; }
+  })();
 
-  function saveCart() { localStorage.setItem('wr_cart', JSON.stringify(cart)); }
+  function saveCart() {
+    // Never save price to localStorage
+    localStorage.setItem('wr_cart', JSON.stringify(
+      cart.map(({ id, name, qty, img }) => ({ id, name, qty, img }))
+    ));
+  }
+
   function getCartCount() { return cart.reduce((s,i) => s + i.qty, 0); }
-  function getCartTotal() { return cart.reduce((s,i) => s + i.price * i.qty, 0); }
+
+  function getCartTotal() {
+    // Always recalculate from sealed price store
+    return cart.reduce((s,i) => s + getTruePrice(i.id) * i.qty, 0);
+  }
 
   function addToCart(id, fromLightbox) {
+    const PRODUCTS = getProducts();
     const p = PRODUCTS.find(p => p.id === id);
     if (!p) return;
     const existing = cart.find(i => i.id === id);
     if (existing) existing.qty++;
-    else cart.push({ id:p.id, name:p.name, price:p.price, img:p.imgs[0], qty:1 });
+    else cart.push({ id:p.id, name:p.name, img:p.imgs[0], qty:1 }); // NO price in cart
     saveCart();
     updateCartUI();
     showToast(`✓ ${p.name} added to cart`);
 
-    // Flash card button
     const btn = document.querySelector(`[data-add="${id}"]`);
     if (btn) {
       btn.classList.add('added'); btn.textContent = '✓ Added';
@@ -1039,8 +1632,6 @@
         btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add`;
       }, 1800);
     }
-
-    // Flash lightbox button
     if (fromLightbox) {
       const lbBtn = document.getElementById('lbAddBtn');
       if (lbBtn) {
@@ -1074,12 +1665,14 @@
     } else {
       document.getElementById('checkoutBtn').style.opacity = '1';
       document.getElementById('checkoutBtn').style.pointerEvents = 'auto';
-      itemsEl.innerHTML = cart.map(item => `
+      itemsEl.innerHTML = cart.map(item => {
+        const price = getTruePrice(item.id); // always from sealed store
+        return `
         <div class="cart-item">
           <div class="cart-item-img"><img src="${item.img}" alt="${item.name}" loading="lazy"/></div>
           <div class="cart-item-info">
             <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-price">GH₵ ${item.price.toFixed(2)}</div>
+            <div class="cart-item-price">GH₵ ${price.toFixed(2)}</div>
             <div class="cart-item-controls">
               <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
               <span class="qty-num">${item.qty}</span>
@@ -1087,26 +1680,29 @@
               <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>
             </div>
           </div>
-        </div>`).join('');
+        </div>`;
+      }).join('');
     }
   }
 
   /* =============================================
-     WHATSAPP CHECKOUT
+     WHATSAPP CHECKOUT — always uses sealed prices
   ============================================= */
   function checkoutWhatsApp() {
     if (cart.length === 0) return;
+    const lines = cart.map(i => {
+      const p = getTruePrice(i.id); // sealed store price
+      return `• ${i.name} x${i.qty} — GH₵${(p*i.qty).toFixed(2)}`;
+    }).join('\n');
     const total = getCartTotal();
-    const lines = cart.map(i => `• ${i.name} x${i.qty} — GH₵${(i.price*i.qty).toFixed(2)}`).join('\n');
-    const msg = encodeURIComponent(`Hello GET IT CHEAP! 👋\n\nI'd like to order:\n\n${lines}\n\n*Total: GH₵${total.toFixed(2)}*\n\nPlease confirm availability and delivery details. Thank you!`);
+    const msg = encodeURIComponent(`Hello GET IT CHEAP! 👋\n\nI\'d like to order:\n\n${lines}\n\n*Total: GH₵${total.toFixed(2)}*\n\nPlease confirm availability and delivery details. Thank you!`);
     window.open(`https://wa.me/233202154489?text=${msg}`, '_blank');
   }
 
   /* =============================================
-     IMAGE GALLERY TOGGLE (on cards)
+     IMAGE GALLERY TOGGLE
   ============================================= */
   const imgState = {};
-
   function switchImage(id, index, e) {
     if (e) e.stopPropagation();
     imgState[id] = index;
@@ -1124,38 +1720,34 @@
   let lbSlot = 0;
 
   function openLightbox(id) {
+    const PRODUCTS = getProducts();
     const p = PRODUCTS.find(p => p.id === id);
     if (!p) return;
     lbProductId = id;
     lbSlot = 0;
+    const price = getTruePrice(id); // sealed price
 
-    // Populate images
     document.getElementById('lbImg0').src = p.imgs[0];
     document.getElementById('lbImg1').src = p.imgs[1];
     document.getElementById('lbTrack').classList.remove('show-second');
     document.getElementById('lbDot0').classList.add('active');
     document.getElementById('lbDot1').classList.remove('active');
-
-    // Populate info
     document.getElementById('lbCategory').textContent = p.category;
     document.getElementById('lbName').textContent = p.name;
     document.getElementById('lbDesc').textContent = p.desc;
-    document.getElementById('lbPrice').innerHTML = `<span class="lb-currency">GH₵ </span>${p.price.toFixed(2)}`;
+    document.getElementById('lbPrice').innerHTML = `<span class="lb-currency">GH₵ </span>${price.toFixed(2)}`;
 
     const badgeEl = document.getElementById('lbBadge');
     badgeEl.innerHTML = p.badge ? `<div class="lb-badge">${p.badge}</div>` : '';
 
-    // WhatsApp single-product link
-    const msg = encodeURIComponent(`Hello GET IT CHEAP! 👋\n\nI'd like to order:\n• ${p.name} — GH₵${p.price.toFixed(2)}\n\nPlease confirm availability and delivery. Thank you!`);
+    const msg = encodeURIComponent(`Hello GET IT CHEAP! 👋\n\nI\'d like to order:\n• ${p.name} — GH₵${price.toFixed(2)}\n\nPlease confirm availability and delivery. Thank you!`);
     document.getElementById('lbWhatsappBtn').href = `https://wa.me/233202154489?text=${msg}`;
 
-    // Add to cart button
     const lbAddBtn = document.getElementById('lbAddBtn');
     lbAddBtn.classList.remove('added');
     lbAddBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add to Cart`;
     lbAddBtn.onclick = () => addToCart(lbProductId, true);
 
-    // Open
     document.getElementById('lightboxOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -1178,18 +1770,19 @@
   document.getElementById('lbNext').addEventListener('click', () => lbSwitchImage(1));
   document.getElementById('lbDot0').addEventListener('click', () => lbSwitchImage(0));
   document.getElementById('lbDot1').addEventListener('click', () => lbSwitchImage(1));
-
-  // Keyboard close
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeLightbox(); closeAdmin(); } });
 
   /* =============================================
      RENDER PRODUCTS
   ============================================= */
-  function renderProducts(filter = 'all') {
+  function renderProducts(filter) {
+    filter = filter || 'all';
+    const PRODUCTS = getProducts();
     const grid = document.getElementById('productsGrid');
     const filtered = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
     grid.innerHTML = filtered.map((p, i) => {
       imgState[p.id] = 0;
+      const price = getTruePrice(p.id); // always from sealed store
       return `
       <article class="product-card fade-in" style="animation-delay:${i*0.06}s" data-category="${p.category}" onclick="openLightbox(${p.id})">
         ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
@@ -1198,27 +1791,112 @@
             <img src="${p.imgs[0]}" alt="${p.name} – view 1" loading="lazy"/>
             <img src="${p.imgs[1]}" alt="${p.name} – view 2" loading="lazy"/>
           </div>
-          <button class="img-arrow prev" onclick="switchImage(${p.id},0,event)" aria-label="Previous image">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <button class="img-arrow next" onclick="switchImage(${p.id},1,event)" aria-label="Next image">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
+          <button class="img-arrow prev" onclick="switchImage(${p.id},0,event)" aria-label="Prev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="img-arrow next" onclick="switchImage(${p.id},1,event)" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
           <div class="img-dots">
-            <button class="img-dot active" data-id="${p.id}" onclick="switchImage(${p.id},0,event)" aria-label="Image 1"></button>
-            <button class="img-dot"        data-id="${p.id}" onclick="switchImage(${p.id},1,event)" aria-label="Image 2"></button>
+            <button class="img-dot active" data-id="${p.id}" onclick="switchImage(${p.id},0,event)"></button>
+            <button class="img-dot"        data-id="${p.id}" onclick="switchImage(${p.id},1,event)"></button>
           </div>
-          <div class="zoom-hint">
-            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-          </div>
+          <div class="zoom-hint"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
         </div>
         <div class="product-body">
           <div class="product-category">${p.category}</div>
           <h3 class="product-name">${p.name}</h3>
           <p class="product-desc">${p.desc}</p>
           <div class="product-footer">
-            <div class="product-price"><span class="currency">GH₵ </span>${p.price.toFixed(2)}</div>
-            <button class="add-to-cart-btn" data-add="${p.id}" onclick="event.stopPropagation();addToCart(${p.id},false)" aria-label="Add ${p.name} to cart">
+            <div class="product-price"><span class="currency">GH₵ </span>${price.toFixed(2)}</div>
+            <button class="add-to-cart-btn" data-add="${p.id}" onclick="event.stopPropagation();addToCart(${p.id},false)" aria-label="Add to cart">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add
+            </button>
+          </div>
+        </div>
+      </article>`;
+    }).join('');
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.product-card.fade-in').forEach(el => { el.getBoundingClientRect(); el.classList.add('visible'); });
+    });
+  }
+
+
+  /* =============================================
+     PRODUCT SEARCH
+  ============================================= */
+  let currentFilter = 'all';
+  let currentQuery  = '';
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function applySearch() {
+    const PRODUCTS = getProducts();
+    const query  = currentQuery.toLowerCase().trim();
+    let results  = currentFilter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === currentFilter);
+    if (query) {
+      results = results.filter(p =>
+        p.name.toLowerCase().includes(query) ||
+        p.desc.toLowerCase().includes(query) ||
+        p.category.toLowerCase().includes(query) ||
+        (p.badge && p.badge.toLowerCase().includes(query))
+      );
+    }
+    renderFilteredProducts(results);
+    const info = document.getElementById('searchInfo');
+    info.innerHTML = query
+      ? (results.length > 0
+          ? `Showing <strong>${results.length}</strong> result${results.length !== 1 ? 's' : ''} for "<strong>${escapeHtml(currentQuery)}</strong>"`
+          : '')
+      : '';
+  }
+
+  function renderFilteredProducts(products) {
+    const grid = document.getElementById('productsGrid');
+    if (products.length === 0) {
+      grid.innerHTML = `
+        <div class="no-results">
+          <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            <line x1="8" y1="11" x2="14" y2="11"/>
+          </svg>
+          <div class="no-results-title">No products found</div>
+          <div class="no-results-sub">Try a different search term or browse all categories.</div>
+        </div>`;
+      return;
+    }
+    products.forEach(p => { imgState[p.id] = 0; });
+    grid.innerHTML = products.map((p, i) => {
+      const price = getTruePrice(p.id);
+      const q = currentQuery.toLowerCase();
+      const safeName = escapeHtml(p.name);
+      const highlightName = q
+        ? safeName.replace(
+            new RegExp('(' + escapeHtml(currentQuery).replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'),
+            '<mark style="background:rgba(21,83,224,0.12);color:var(--blue);border-radius:3px;padding:0 2px">$1</mark>'
+          )
+        : safeName;
+      return `
+      <article class="product-card fade-in" style="animation-delay:${i*0.05}s" data-category="${p.category}" onclick="openLightbox(${p.id})">
+        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+        <div class="product-img-wrap">
+          <div class="img-track" data-id="${p.id}">
+            <img src="${p.imgs[0]}" alt="${escapeHtml(p.name)} – view 1" loading="lazy"/>
+            <img src="${p.imgs[1]}" alt="${escapeHtml(p.name)} – view 2" loading="lazy"/>
+          </div>
+          <button class="img-arrow prev" onclick="switchImage(${p.id},0,event)" aria-label="Prev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="img-arrow next" onclick="switchImage(${p.id},1,event)" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+          <div class="img-dots">
+            <button class="img-dot active" data-id="${p.id}" onclick="switchImage(${p.id},0,event)"></button>
+            <button class="img-dot"        data-id="${p.id}" onclick="switchImage(${p.id},1,event)"></button>
+          </div>
+          <div class="zoom-hint"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+        </div>
+        <div class="product-body">
+          <div class="product-category">${p.category}</div>
+          <h3 class="product-name">${highlightName}</h3>
+          <p class="product-desc">${escapeHtml(p.desc)}</p>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">GH₵ </span>${price.toFixed(2)}</div>
+            <button class="add-to-cart-btn" data-add="${p.id}" onclick="event.stopPropagation();addToCart(${p.id},false)" aria-label="Add to cart">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add
             </button>
           </div>
@@ -1233,14 +1911,31 @@
     });
   }
 
+  // Search input events
+  const searchInput = document.getElementById('productSearch');
+  const searchClear = document.getElementById('searchClear');
+  searchInput.addEventListener('input', () => {
+    currentQuery = searchInput.value;
+    searchClear.classList.toggle('show', currentQuery.length > 0);
+    applySearch();
+  });
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    currentQuery = '';
+    searchClear.classList.remove('show');
+    searchInput.focus();
+    applySearch();
+  });
+
   /* =============================================
-     FILTER TABS
+     FILTER TABS — integrated with search
   ============================================= */
   document.querySelectorAll('.filter-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      renderProducts(tab.dataset.filter);
+      currentFilter = tab.dataset.filter;
+      applySearch();
     });
   });
 
@@ -1249,10 +1944,8 @@
   ============================================= */
   const cartDrawer  = document.getElementById('cartDrawer');
   const cartOverlay = document.getElementById('cartOverlay');
-
   function openCart()  { cartDrawer.classList.add('open');    cartOverlay.classList.add('open');    document.body.style.overflow = 'hidden'; }
   function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); document.body.style.overflow = ''; }
-
   document.getElementById('cartToggle').addEventListener('click', openCart);
   document.getElementById('cartClose').addEventListener('click', closeCart);
   cartOverlay.addEventListener('click', closeCart);
@@ -1307,11 +2000,224 @@
   }
 
   /* =============================================
+     ADMIN PANEL
+     Access: type  wiserobotics  as password
+     URL:    add #admin to URL or use footer link
+  ============================================= */
+  // Admin password — change 'wiserobotics2024' to your preferred password
+  function checkAdminPass(input) {
+    return input === 'Jesusis4me';
+  }
+
+  let adminAuthenticated = false;
+
+  function openAdmin() {
+    document.getElementById('adminOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (!adminAuthenticated) {
+      document.getElementById('adminLogin').style.display = 'flex';
+      document.getElementById('adminDash').style.display  = 'none';
+      setTimeout(() => document.getElementById('adminPwInput').focus(), 100);
+    } else {
+      showAdminDash();
+    }
+  }
+
+  function closeAdmin() {
+    document.getElementById('adminOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    closeAdminForm();
+  }
+
+  function showAdminDash() {
+    document.getElementById('adminLogin').style.display = 'none'; document.getElementById('adminLogin').style.flex = 'none';
+    document.getElementById('adminDash').style.display  = 'flex';
+    renderAdminTable();
+    updateAdminStats();
+  }
+
+  // Login
+  document.getElementById('adminLoginBtn').addEventListener('click', () => {
+    const val = document.getElementById('adminPwInput').value;
+    if (checkAdminPass(val)) {
+      adminAuthenticated = true;
+      document.getElementById('adminLoginErr').style.display = 'none';
+      document.getElementById('adminPwInput').value = '';
+      showAdminDash();
+    } else {
+      document.getElementById('adminLoginErr').style.display = 'block';
+      document.getElementById('adminPwInput').value = '';
+      document.getElementById('adminPwInput').focus();
+    }
+  });
+  document.getElementById('adminPwInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('adminLoginBtn').click(); });
+  document.getElementById('adminCloseBtn').addEventListener('click', closeAdmin);
+
+  // Admin table
+  function renderAdminTable() {
+    const PRODUCTS = getProducts();
+    const tbody = document.getElementById('adminTableBody');
+    tbody.innerHTML = PRODUCTS.map(p => {
+      const price = getTruePrice(p.id);
+      const isLocked = p.id <= 10000; // original products have locked prices
+      return `
+      <tr>
+        <td><img src="${p.imgs[0]}" class="admin-thumb" alt="${p.name}"/></td>
+        <td><div class="admin-prod-name">${p.name}</div><div class="admin-prod-id">#${p.id}</div></td>
+        <td><span class="admin-cat-badge admin-cat-${p.category}">${p.category}</span></td>
+        <td>
+          <div class="admin-price-wrap">
+            <span class="admin-price-val">GH₵ ${price.toFixed(2)}</span>
+            ${isLocked ? '<span class="admin-price-lock" title="Price locked — edit in HTML source">🔒</span>' : ''}
+          </div>
+        </td>
+        <td>${p.badge ? `<span class="admin-badge-pill">${p.badge}</span>` : '<span class="admin-no-badge">—</span>'}</td>
+        <td>
+          <div class="admin-action-btns">
+            <button class="admin-edit-btn" onclick="adminEditProduct(${p.id})">✏️ Edit</button>
+            <button class="admin-del-btn"  onclick="adminDeleteProduct(${p.id})">🗑 Delete</button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  function updateAdminStats() {
+    const PRODUCTS = getProducts();
+    document.getElementById('statTotal').textContent     = PRODUCTS.length;
+    document.getElementById('statRobotics').textContent   = PRODUCTS.filter(p => p.category === 'robotics').length;
+    document.getElementById('statElectronics').textContent= PRODUCTS.filter(p => p.category === 'electronics').length;
+    document.getElementById('statStem').textContent       = PRODUCTS.filter(p => p.category === 'stem').length;
+    document.getElementById('adminProductCount').textContent = PRODUCTS.length + ' products';
+  }
+
+  // ADD product button
+  document.getElementById('adminAddBtn').addEventListener('click', () => openAdminForm(null));
+
+  function openAdminForm(product) {
+    document.getElementById('adminFormModal').classList.add('open');
+    if (product) {
+      document.getElementById('adminFormTitle').textContent = 'Edit Product';
+      document.getElementById('adminEditId').value  = product.id;
+      document.getElementById('afName').value       = product.name;
+      document.getElementById('afDesc').value       = product.desc;
+      document.getElementById('afPrice').value      = product.id > 10000 ? getTruePrice(product.id) : '';
+      document.getElementById('afCategory').value   = product.category;
+      document.getElementById('afBadge').value      = product.badge || '';
+      document.getElementById('afImg1').value       = product.imgs[0] || '';
+      document.getElementById('afImg2').value       = product.imgs[1] || '';
+      // Lock price field for original products
+      const priceInput = document.getElementById('afPrice');
+      if (product.id <= 10000) {
+        priceInput.disabled = true;
+        priceInput.placeholder = 'Price locked (edit in HTML source)';
+        priceInput.title = 'Prices for original products are locked for security';
+      } else {
+        priceInput.disabled = false;
+        priceInput.placeholder = 'e.g. 180';
+      }
+    } else {
+      document.getElementById('adminFormTitle').textContent = 'Add New Product';
+      document.getElementById('adminEditId').value  = '';
+      document.getElementById('afName').value       = '';
+      document.getElementById('afDesc').value       = '';
+      document.getElementById('afPrice').value      = '';
+      document.getElementById('afCategory').value   = 'electronics';
+      document.getElementById('afBadge').value      = '';
+      document.getElementById('afImg1').value       = '';
+      document.getElementById('afImg2').value       = '';
+      document.getElementById('afPrice').disabled   = false;
+      document.getElementById('afPrice').placeholder= 'e.g. 180';
+    }
+  }
+
+  function closeAdminForm() {
+    document.getElementById('adminFormModal').classList.remove('open');
+  }
+
+  document.getElementById('adminFormCancel').addEventListener('click', closeAdminForm);
+
+  document.getElementById('adminFormSave').addEventListener('click', () => {
+    const name  = document.getElementById('afName').value.trim();
+    const desc  = document.getElementById('afDesc').value.trim();
+    const cat   = document.getElementById('afCategory').value;
+    const badge = document.getElementById('afBadge').value.trim() || null;
+    const img1  = document.getElementById('afImg1').value.trim();
+    const img2  = document.getElementById('afImg2').value.trim();
+    const editId= parseInt(document.getElementById('adminEditId').value) || null;
+
+    if (!name || !desc || !img1 || !img2) { showToast('Please fill in all required fields'); return; }
+
+    const adminData = _STORE.adminLoad();
+
+    if (editId) {
+      // Edit existing
+      const existing = adminData.find(p => p.id === editId);
+      if (existing) {
+        existing.name = name; existing.desc = desc; existing.category = cat;
+        existing.badge = badge; existing.imgs = [img1, img2];
+        if (editId > 10000) existing.price = parseFloat(document.getElementById('afPrice').value) || existing.price;
+      } else {
+        // Not in admin data yet — add an override entry (price stays locked for id <= 10000)
+        const entry = { id:editId, name, desc, category:cat, badge, imgs:[img1,img2] };
+        adminData.push(entry);
+      }
+    } else {
+      // Add new product
+      const newPrice = parseFloat(document.getElementById('afPrice').value);
+      if (!newPrice || newPrice <= 0) { showToast('Please enter a valid price'); return; }
+      const newId = Date.now(); // timestamp-based id — always > 10000
+      adminData.push({ id:newId, name, desc, category:cat, badge, imgs:[img1,img2], price:newPrice });
+    }
+
+    _STORE.adminSave(adminData);
+    closeAdminForm();
+    renderAdminTable();
+    updateAdminStats();
+    renderProducts();
+    showToast(editId ? '✓ Product updated' : '✓ New product added');
+  });
+
+  function adminEditProduct(id) {
+    const PRODUCTS = getProducts();
+    const p = PRODUCTS.find(p => p.id === id);
+    if (p) openAdminForm(p);
+  }
+
+  function adminDeleteProduct(id) {
+    if (!confirm('Delete this product? This cannot be undone.')) return;
+    let adminData = _STORE.adminLoad();
+    if (id <= 10000) {
+      // Original product — mark as hidden via admin data
+      const existing = adminData.find(p => p.id === id);
+      if (existing) existing._hidden = true;
+      else adminData.push({ id, _hidden: true });
+    } else {
+      // Admin-added — fully remove
+      adminData = adminData.filter(p => p.id !== id);
+    }
+    _STORE.adminSave(adminData);
+    // Rebuild products filtering hidden ones
+    renderAdminTable();
+    updateAdminStats();
+    renderProducts();
+    showToast('Product removed from shop');
+  }
+
+  // URL hash trigger
+  function checkHashAdmin() {
+    if (window.location.hash === '#admin') openAdmin();
+  }
+  window.addEventListener('hashchange', checkHashAdmin);
+
+  /* =============================================
      INIT
   ============================================= */
-  renderProducts();
+  applySearch();
   updateCartUI();
   setTimeout(() => document.querySelectorAll('.fade-in').forEach(el => observer.observe(el)), 100);
+  checkHashAdmin();
 </script>
+
 </body>
 </html>
