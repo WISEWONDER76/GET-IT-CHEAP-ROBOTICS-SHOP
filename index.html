@@ -1522,9 +1522,7 @@
       { id:7,  name:"L298N Motor Driver Module",         desc:"High-power dual H-bridge driver — supports up to 2A per channel.",                                  _p:_enc(30), category:"electronics", badge:null,         imgs:["L298N1.png","L298N2.png"] },
       { id:8,  name:"Servo Motor SG90",                  desc:"Lightweight 9g micro servo motor with 180° rotation — great for robot arms and RC cars.",           _p:_enc(30), category:"robotics",    badge:"New",        imgs:["S1.png","S2.png"] },
       { id:9,  name:"3.7V 18500 2400mAh Lithium Battery",desc:"Rechargeable lithium-ion battery — reliable power for robotics, drones, and electronics.",         _p:_enc(20), category:"electronics", badge:null,         imgs:["b1.png","b2.png"] },
-      { id:10, name:"18650 3.7V Battery Holder",         desc:"Durable battery holder for 18650 cells — with leads for easy connection to your projects.",         _p:_enc(28),  category:"electronics", badge:null,         imgs:["bc1.png","bc2.png"] },
-      { id:11, name:"2WD Robotic Car Starter Kit Complete",         desc:"1Kit Robot Car Kit Includes Additions for Arduino Programming, Designed As a Smart 2WD Robotic Car Starter Kit Complete with a Tutorial",         _p:_enc(550),  category:"robotics", badge:null,         imgs:["USC1.png","USC2.png"] },
-      { id:12, name:"Industrial Robot 4WD Multifunction Robot Kit",         desc:"LAFVIN Industrial Robot 4WD Multifunction Robot Kit DIY Smart Robot Kit for A-duino Programming Kit",         _p:_enc(750),  category:"robotics", badge:null,         imgs:["USC4W1.png","USC4W2.png"] }
+      { id:10, name:"18650 3.7V Battery Holder",         desc:"Durable battery holder for 18650 cells — with leads for easy connection to your projects.",         _p:_enc(28),  category:"electronics", badge:null,         imgs:["bc1.png","bc2.png"] }
     ];
 
     // Load admin-added or admin-edited products from localStorage
@@ -1554,12 +1552,9 @@
           existing.imgs     = ap.imgs     || existing.imgs;
           if (ap._hidden) existing._hidden = true;
           // Price override only allowed if this is an admin-created product (id > 10000)
-        } else if (ap.id > 10000 && !ap._hidden) {
-          // New product added by admin — use their price
-          merged.push({ ...ap });
-        } else if (ap._hidden) {
-          // Mark existing product as hidden
-          if (existing) existing._hidden = true;
+        } else if (ap.id > 10000) {
+          // New product added by admin
+          if (!ap._hidden) merged.push({ ...ap });
         }
       });
       // Filter out products hidden/deleted by admin
@@ -2168,7 +2163,9 @@
       // Add new product
       const newPrice = parseFloat(document.getElementById('afPrice').value);
       if (!newPrice || newPrice <= 0) { showToast('Please enter a valid price'); return; }
-      const newId = Date.now(); // timestamp-based id — always > 10000
+      const existingIds = adminData.map(p => p.id);
+      let newId = Date.now();
+      while (existingIds.includes(newId)) newId++; // guarantee uniqueness
       adminData.push({ id:newId, name, desc, category:cat, badge, imgs:[img1,img2], price:newPrice });
     }
 
@@ -2176,7 +2173,7 @@
     closeAdminForm();
     renderAdminTable();
     updateAdminStats();
-    renderProducts();
+    applySearch();
     showToast(editId ? '✓ Product updated' : '✓ New product added');
   });
 
@@ -2202,7 +2199,7 @@
     // Rebuild products filtering hidden ones
     renderAdminTable();
     updateAdminStats();
-    renderProducts();
+    applySearch();
     showToast('Product removed from shop');
   }
 
