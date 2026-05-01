@@ -1492,43 +1492,185 @@
 
 
 
-<!-- =============================================
-     JAVASCRIPT
-============================================= -->
-<script>
-  /* ============================================================
-     PRICE PROTECTION SYSTEM
-     Prices are frozen in a sealed closure. The rendered DOM
-     prices are display-only. All cart totals and WhatsApp
-     checkout messages are always recalculated from MASTER_PRICES,
-     which cannot be accessed or modified from the browser console
-     without knowing the internal variable name.
-  ============================================================ */
+/* ============================================================
+   PRICE PROTECTION SYSTEM
+   Prices are frozen in a sealed closure. The rendered DOM
+   prices are display-only. All cart totals and WhatsApp
+   checkout messages are always recalculated from MASTER_PRICES,
+   which cannot be accessed or modified from the browser console
+   without knowing the internal variable name.
+============================================================ */
 
-  // MASTER product data — this is the single source of truth
-  const _STORE = (() => {
-    // Prices encoded as (encoded_value XOR key) to deter casual console edits
-    const _k = 0xA3;
-    const _enc = (n) => n ^ _k; // simple deterrent — not cryptography
-    const _dec = (n) => n ^ _k;
+const _STORE = (() => {
 
-    const _raw = [
-      { id:1,  name:"Arduino Starter Kit",               desc:"Complete beginner\'s kit with UNO board, jumpers, LEDs, resistors, and a step-by-step guide.",    _p:_enc(430), category:"electronics", badge:"Best Seller", imgs:["K1.png","K2.png"] },
-      { id:2,  name:"2WD Robotics Car Chassis",          desc:"Build and program your own 2WD smart car with ultrasonic sensors and IR remote control.",           _p:_enc(80), category:"robotics",    badge:"Popular",    imgs:["2W1.png","2W2.png"] },
-      { id:3,  name:"4WD Robotics Car Chassis",          desc:"Sturdy 4-wheel drive chassis — compatible with Arduino and Raspberry Pi.",                          _p:_enc(130),  category:"robotics",    badge:null,         imgs:["4W1.png","4W2.png"] },
-      { id:4,  name:"37 Sensors Kit Pack",               desc:"37 sensors in one kit: temperature, humidity, IR, ultrasonic, soil moisture, and more.",            _p:_enc(260),  category:"electronics", badge:"New",         imgs:["37S1.png","37S2.png"] },
-      { id:5,  name:"Electronics Block Kit",             desc:"Modular snap-together electronics blocks — perfect for beginners learning circuits without soldering.", _p:_enc(550), category:"stem",     badge:null,         imgs:["EB1.png","EB2.png"] },
-      { id:6,  name:"L293D Motor Driver Module",         desc:"Dual H-bridge motor driver — ideal for controlling DC and stepper motors with Arduino.",             _p:_enc(35), category:"electronics", badge:"Top Pick",    imgs:["L293D1.png","L293D2.png"] },
-      { id:7,  name:"L298N Motor Driver Module",         desc:"High-power dual H-bridge driver — supports up to 2A per channel.",                                  _p:_enc(30), category:"electronics", badge:null,         imgs:["L298N1.png","L298N2.png"] },
-      { id:8,  name:"Servo Motor SG90",                  desc:"Lightweight 9g micro servo motor with 180° rotation — great for robot arms and RC cars.",           _p:_enc(30), category:"robotics",    badge:"New",        imgs:["S1.png","S2.png"] },
-      { id:9,  name:"3.7V 18500 2400mAh Lithium Battery",desc:"Rechargeable lithium-ion battery — reliable power for robotics, drones, and electronics.",         _p:_enc(20), category:"electronics", badge:null,         imgs:["b1.png","b2.png"] },
-      { id:10, name:"18650 3.7V Battery Holder",         desc:"Durable battery holder for 18650 cells — with leads for easy connection to your projects.",         _p:_enc(28),  category:"electronics", badge:null,         imgs:["bc1.png","bc2.png"] },
-      { id:11, name:"2WD Robot Car Kit",                     desc:"The 2WD Smart Robot Car Kit is an all-in-one DIY electronics set designed for beginners to learn robotics and Arduino programming. It provides a hands-on experience in building a programmable vehicle that can navigate its environment.",         _p:_enc(550),  category:"robotics", badge:null,         imgs:["USC1.png","USC2.png"] },
+  // Simple XOR deterrent — not cryptography, just console protection
+  const _k   = 0xA3;
+  const _enc = (n) => n ^ _k;
+  const _dec = (n) => n ^ _k;
 
-    { id:12, name:"4WD Robot Car Kit",                       desc:"The 4WD Smart Robot Car is a powerful, multi-functional upgrade designed to make robotics more accessible through visual coding and smartphone interaction.",         _p:_enc(750),  category:"robotics", badge:"New",         imgs:["USC4W1.png","USC4W2.png"] }
+  // ─────────────────────────────────────────────────────────────
+  // PRODUCT CATALOGUE
+  // To add a product: copy any block below, increment the id,
+  // fill in the fields, and add your image filenames to imgs[].
+  //
+  // Fields:
+  //   id       – unique number (never reuse)
+  //   name     – display name
+  //   desc     – short product description
+  //   _p       – ALWAYS wrap the GHS price with _enc(...)
+  //   category – "electronics" | "robotics" | "stem"
+  //   badge    – "Best Seller" | "Popular" | "New" | "Top Pick" | null
+  //   imgs     – array of image filenames (first = thumbnail)
+  // ─────────────────────────────────────────────────────────────
+  const _raw = [
 
-    ];
+    {
+      id:       1,
+      name:     "Arduino Starter Kit",
+      desc:     "Complete beginner's kit with UNO board, jumpers, LEDs, "
+              + "resistors, and a step-by-step guide.",
+      _p:       _enc(430),
+      category: "electronics",
+      badge:    "Best Seller",
+      imgs:     ["K1.png", "K2.png"],
+    },
 
+    {
+      id:       2,
+      name:     "2WD Robotics Car Chassis",
+      desc:     "Build and program your own 2WD smart car with ultrasonic "
+              + "sensors and IR remote control.",
+      _p:       _enc(80),
+      category: "robotics",
+      badge:    "Popular",
+      imgs:     ["2W1.png", "2W2.png"],
+    },
+
+    {
+      id:       3,
+      name:     "4WD Robotics Car Chassis",
+      desc:     "Sturdy 4-wheel drive chassis — compatible with Arduino "
+              + "and Raspberry Pi.",
+      _p:       _enc(130),
+      category: "robotics",
+      badge:    null,
+      imgs:     ["4W1.png", "4W2.png"],
+    },
+
+    {
+      id:       4,
+      name:     "37 Sensors Kit Pack",
+      desc:     "37 sensors in one kit: temperature, humidity, IR, "
+              + "ultrasonic, soil moisture, and more.",
+      _p:       _enc(260),
+      category: "electronics",
+      badge:    "New",
+      imgs:     ["37S1.png", "37S2.png"],
+    },
+
+    {
+      id:       5,
+      name:     "Electronics Block Kit",
+      desc:     "Modular snap-together electronics blocks — perfect for "
+              + "beginners learning circuits without soldering.",
+      _p:       _enc(550),
+      category: "stem",
+      badge:    null,
+      imgs:     ["EB1.png", "EB2.png"],
+    },
+
+    {
+      id:       6,
+      name:     "L293D Motor Driver Module",
+      desc:     "Dual H-bridge motor driver — ideal for controlling DC "
+              + "and stepper motors with Arduino.",
+      _p:       _enc(35),
+      category: "electronics",
+      badge:    "Top Pick",
+      imgs:     ["L293D1.png", "L293D2.png"],
+    },
+
+    {
+      id:       7,
+      name:     "L298N Motor Driver Module",
+      desc:     "High-power dual H-bridge driver — supports up to "
+              + "2A per channel.",
+      _p:       _enc(30),
+      category: "electronics",
+      badge:    null,
+      imgs:     ["L298N1.png", "L298N2.png"],
+    },
+
+    {
+      id:       8,
+      name:     "Servo Motor SG90",
+      desc:     "Lightweight 9g micro servo motor with 180° rotation — "
+              + "great for robot arms and RC cars.",
+      _p:       _enc(30),
+      category: "robotics",
+      badge:    "New",
+      imgs:     ["S1.png", "S2.png"],
+    },
+
+    {
+      id:       9,
+      name:     "3.7V 18500 2400mAh Lithium Battery",
+      desc:     "Rechargeable lithium-ion battery — reliable power for "
+              + "robotics, drones, and electronics.",
+      _p:       _enc(20),
+      category: "electronics",
+      badge:    null,
+      imgs:     ["b1.png", "b2.png"],
+    },
+
+    {
+      id:       10,
+      name:     "18650 3.7V Battery Holder",
+      desc:     "Durable battery holder for 18650 cells — with leads "
+              + "for easy connection to your projects.",
+      _p:       _enc(28),
+      category: "electronics",
+      badge:    null,
+      imgs:     ["bc1.png", "bc2.png"],
+    },
+
+    {
+      id:       11,
+      name:     "2WD Robot Car Kit",
+      desc:     "All-in-one DIY electronics set designed for beginners to "
+              + "learn robotics and Arduino programming. Provides a "
+              + "hands-on experience building a programmable vehicle "
+              + "that can navigate its environment.",
+      _p:       _enc(550),
+      category: "robotics",
+      badge:    null,
+      imgs:     ["USC1.png", "USC2.png"],
+    },
+
+    {
+      id:       12,
+      name:     "4WD Robot Car Kit",
+      desc:     "Powerful, multi-functional upgrade designed to make "
+              + "robotics more accessible through visual coding "
+              + "and smartphone interaction.",
+      _p:       _enc(750),
+      category: "robotics",
+      badge:    "New",
+      imgs:     ["USC4W1.png", "USC4W2.png"],
+    },
+
+    // ── ADD NEW PRODUCTS BELOW THIS LINE ─────────────────────
+    // {
+    //   id:       13,
+    //   name:     "Your Product Name",
+    //   desc:     "Short description here.",
+    //   _p:       _enc(0),        // ← replace 0 with GHS price
+    //   category: "electronics",  // electronics | robotics | stem
+    //   badge:    null,           // or "New", "Best Seller", etc.
+    //   imgs:     ["img1.png", "img2.png"],
+    // },
+
+  ]; // end _raw
     // Load admin-added or admin-edited products from localStorage
     const _adminKey = '__gic_products__';
     const _loadAdmin = () => { try { return JSON.parse(localStorage.getItem(_adminKey) || 'null'); } catch(e) { return null; } };
