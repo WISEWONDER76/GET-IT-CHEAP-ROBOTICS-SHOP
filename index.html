@@ -291,8 +291,36 @@
 
     .product-body { padding: 18px; }
     .product-category { font-size: 0.72rem; font-weight: 600; color: var(--blue); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
-    .product-name { font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 6px; line-height: 1.3; }
-    .product-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin-bottom: 14px; }
+    .product-name { font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 8px; line-height: 1.3; }
+
+    /* =============================================
+       PRODUCT DESC — hidden on card, visible in lightbox
+    ============================================= */
+    .product-desc {
+      display: none; /* completely hidden on product cards */
+    }
+
+    /* "Tap for details" hint shown on card instead of desc */
+    .product-details-hint {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.76rem;
+      color: var(--blue);
+      font-weight: 600;
+      margin-bottom: 14px;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      user-select: none;
+    }
+    .product-details-hint svg {
+      width: 13px; height: 13px;
+      stroke: var(--blue); fill: none;
+      flex-shrink: 0;
+    }
+    .product-card:hover .product-details-hint { opacity: 1; }
+
     .product-footer { display: flex; justify-content: space-between; align-items: center; }
     .product-price { font-family: var(--font-head); font-weight: 800; font-size: 1.15rem; color: var(--navy); }
     .product-price .currency { font-size: 0.8em; color: var(--muted); }
@@ -587,144 +615,6 @@
        ADMIN PANEL
     ============================================= */
     #adminOverlay {
-      position: fixed; inset: 0; z-index: 9000;
-      background: #0B1A33;
-      display: none; flex-direction: column;
-      font-family: var(--font-body);
-    }
-    #adminOverlay.open { display: flex; }
-
-    /* Login screen */
-    #adminLogin {
-      display: flex; align-items: center; justify-content: center;
-      flex: 1; background: linear-gradient(135deg,#0B1A33,#132240);
-    }
-    .admin-login-box {
-      background: #fff; border-radius: 20px; padding: 48px 40px;
-      width: 100%; max-width: 400px; text-align: center;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.4);
-    }
-    .admin-login-logo {
-      width: 56px; height: 56px; border-radius: 14px; overflow: hidden;
-      margin: 0 auto 18px; background: var(--sky);
-    }
-    .admin-login-logo img { width:100%; height:100%; object-fit:contain; }
-    .admin-login-title { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--navy); margin-bottom: 6px; }
-    .admin-login-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 28px; }
-    .admin-login-input {
-      width: 100%; padding: 13px 16px; border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm); font-size: 1rem; font-family: var(--font-body);
-      color: var(--text); outline: none; text-align: center; letter-spacing: 0.15em;
-      margin-bottom: 14px; transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .admin-login-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21,83,224,0.12); }
-    .admin-login-btn {
-      width: 100%; padding: 13px; background: var(--blue); color: #fff;
-      border-radius: 50px; font-family: var(--font-head); font-weight: 700;
-      font-size: 0.95rem; cursor: pointer; border: none;
-      box-shadow: 0 4px 20px rgba(21,83,224,0.3); transition: all 0.22s;
-    }
-    .admin-login-btn:hover { background: var(--blue-glow); transform: translateY(-2px); }
-    .admin-login-err { color: #FF4D6D; font-size: 0.82rem; margin-top: 10px; display: none; }
-    .admin-login-err.show { display: block; }
-
-    /* Admin dashboard */
-    
-    .admin-topbar {
-      background: #fff; border-bottom: 1px solid var(--border);
-      padding: 0 28px; height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-shrink: 0;
-    }
-    .admin-topbar-title { font-family: var(--font-head); font-weight: 800; font-size: 1rem; color: var(--navy); display: flex; align-items: center; gap: 10px; }
-    .admin-topbar-title span { font-size: 0.75rem; background: var(--sky); color: var(--blue); padding: 3px 10px; border-radius: 20px; font-weight: 700; }
-    .admin-topbar-actions { display: flex; gap: 10px; }
-    .admin-btn {
-      padding: 8px 18px; border-radius: 50px; font-family: var(--font-head);
-      font-weight: 700; font-size: 0.82rem; cursor: pointer; border: none;
-      transition: all 0.2s;
-    }
-    .admin-btn-primary { background: var(--blue); color: #fff; }
-    .admin-btn-primary:hover { background: var(--blue-glow); }
-    .admin-btn-danger { background: #FEE2E2; color: #DC2626; }
-    .admin-btn-danger:hover { background: #FECACA; }
-    .admin-btn-ghost { background: var(--sky); color: var(--navy); }
-    .admin-btn-ghost:hover { background: #D6E4FF; }
-
-    .admin-body { flex: 1; overflow-y: auto; padding: 28px; background: #F8FAFF; }
-
-    .admin-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
-    .admin-stat-card { background: #fff; border-radius: var(--radius-sm); padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-    .admin-stat-n { font-family: var(--font-head); font-weight: 800; font-size: 1.6rem; color: var(--navy); }
-    .admin-stat-l { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
-
-    .admin-section-title {
-      font-family: var(--font-head); font-weight: 800; font-size: 1rem;
-      color: var(--navy); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;
-    }
-
-    /* Product table */
-    .admin-table-wrap { background: #fff; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-sm); }
-    .admin-table { width: 100%; border-collapse: collapse; }
-    .admin-table th { background: var(--sky); color: var(--navy); font-family: var(--font-head); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 16px; text-align: left; }
-    .admin-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 0.88rem; color: var(--text); vertical-align: middle; }
-    .admin-table tr:last-child td { border-bottom: none; }
-    .admin-table tr:hover td { background: #F8FAFF; }
-    .admin-thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: var(--sky); }
-    .admin-badge { display: inline-block; background: var(--accent); color: var(--navy); font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; }
-    .admin-price { font-family: var(--font-head); font-weight: 800; color: var(--blue); }
-    .admin-actions { display: flex; gap: 6px; }
-    .admin-edit-btn { padding: 5px 12px; background: var(--sky); color: var(--navy); border-radius: 20px; font-size: 0.75rem; font-weight: 700; font-family: var(--font-head); cursor: pointer; border: none; transition: background 0.2s; }
-    .admin-edit-btn:hover { background: #D6E4FF; }
-    .admin-del-btn { padding: 5px 12px; background: #FEE2E2; color: #DC2626; border-radius: 20px; font-size: 0.75rem; font-weight: 700; font-family: var(--font-head); cursor: pointer; border: none; transition: background 0.2s; }
-    .admin-del-btn:hover { background: #FECACA; }
-
-    /* Product form modal */
-    #adminFormModal {
-      position: fixed; inset: 0; z-index: 9100;
-      background: rgba(11,26,51,0.7); backdrop-filter: blur(6px);
-      display: none; align-items: center; justify-content: center; padding: 20px;
-    }
-    #adminFormModal.open { display: flex; }
-    .admin-form-box {
-      background: #fff; border-radius: 20px; width: 100%; max-width: 560px;
-      max-height: 90vh; overflow-y: auto;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.35);
-      padding: 32px;
-    }
-    .admin-form-title { font-family: var(--font-head); font-weight: 800; font-size: 1.1rem; color: var(--navy); margin-bottom: 24px; }
-    .admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .admin-form-full { grid-column: 1/-1; }
-    .admin-form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
-    .admin-form-input, .admin-form-select, .admin-form-textarea {
-      width: 100%; padding: 10px 14px; border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.9rem;
-      color: var(--text); background: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .admin-form-input:focus, .admin-form-select:focus, .admin-form-textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21,83,224,0.1); }
-    .admin-form-textarea { resize: vertical; min-height: 80px; }
-    .admin-form-hint { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
-    .admin-form-btns { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
-    .admin-save-btn { padding: 11px 28px; background: var(--blue); color: #fff; border-radius: 50px; font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; border: none; cursor: pointer; transition: all 0.22s; box-shadow: 0 4px 16px rgba(21,83,224,0.28); }
-    .admin-save-btn:hover { background: var(--blue-glow); }
-    .admin-cancel-btn { padding: 11px 28px; background: var(--sky); color: var(--navy); border-radius: 50px; font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; border: none; cursor: pointer; transition: background 0.2s; }
-    .admin-cancel-btn:hover { background: #D6E4FF; }
-
-    @media (max-width: 768px) {
-      .admin-stats { grid-template-columns: 1fr 1fr; }
-      .admin-table th:nth-child(4), .admin-table td:nth-child(4) { display: none; }
-      .admin-form-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 480px) {
-      .admin-stats { grid-template-columns: 1fr; }
-      .admin-body { padding: 16px; }
-    }
-
-
-    /* =============================================
-       ADMIN PANEL STYLES
-    ============================================= */
-    #adminOverlay {
       position: fixed; inset: 0; z-index: 8000;
       background: #0B1A33;
       display: none; flex-direction: column;
@@ -732,7 +622,6 @@
     }
     #adminOverlay.open { display: flex; }
 
-    /* Login screen */
     #adminLogin {
       display: flex; align-items: center; justify-content: center;
       min-height: 100vh; padding: 40px 20px;
@@ -764,7 +653,6 @@
     .admin-login-hint { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
     .admin-login-hint code { background: var(--sky); padding: 2px 6px; border-radius: 4px; color: var(--blue); font-weight: 700; }
 
-    /* Dashboard */
     #adminDash { display: none; flex-direction: column; flex: 1; }
     .admin-topbar {
       background: #132240; padding: 16px 32px;
@@ -820,7 +708,6 @@
     .admin-del-btn  { background: rgba(255,77,109,0.2); color: #FF6B8A; }
     .admin-del-btn:hover  { background: rgba(255,77,109,0.35); }
 
-    /* Product form modal */
     #adminFormModal {
       position: fixed; inset: 0; z-index: 9000;
       background: rgba(5,10,25,0.85); backdrop-filter: blur(6px);
@@ -851,7 +738,6 @@
     .admin-save-btn { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; padding: 12px 28px; border-radius: 50px; background: var(--blue); color: #fff; border: none; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 16px rgba(21,83,224,0.3); }
     .admin-save-btn:hover { background: var(--blue-glow); transform: translateY(-1px); }
 
-    /* Responsive admin */
     @media (max-width: 768px) {
       .admin-stats { grid-template-columns: 1fr 1fr; }
       .admin-form-grid { grid-template-columns: 1fr; }
@@ -863,7 +749,6 @@
       .admin-form-box { padding: 24px 18px; }
       .admin-topbar-title { font-size: 0.85rem; }
     }
-
 
     /* =============================================
        PRODUCT SEARCH BAR
@@ -1201,7 +1086,7 @@
         <p class="section-sub">Questions about a product, bulk orders, or school partnerships? We'd love to hear from you.</p>
         <div style="margin-top:36px">
           <div class="contact-info-item">
-            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 0112 18.92 2 2 0 0122 16.92z"/></svg></div>
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 4.11 2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
             <div><div class="contact-info-label">Phone / WhatsApp</div><div class="contact-info-val">+233 20 215 4489</div></div>
           </div>
           <div class="contact-info-item">
@@ -1377,12 +1262,8 @@
   <span id="toastMsg">Added to cart!</span>
 </div>
 
-
-
 <!-- =============================================
      ADMIN PANEL OVERLAY
-     Access: navigate to #admin in URL or
-     click "Admin" link in footer
 ============================================= -->
 <div id="adminOverlay" role="dialog" aria-label="Admin Panel">
 
@@ -1491,25 +1372,13 @@
 </div>
 
 
-
 <!-- =============================================
      JAVASCRIPT
 ============================================= -->
 <script>
-  /* ============================================================
-     PRICE PROTECTION SYSTEM
-     Prices are frozen in a sealed closure. The rendered DOM
-     prices are display-only. All cart totals and WhatsApp
-     checkout messages are always recalculated from MASTER_PRICES,
-     which cannot be accessed or modified from the browser console
-     without knowing the internal variable name.
-  ============================================================ */
-
-  // MASTER product data — this is the single source of truth
   const _STORE = (() => {
-    // Prices encoded as (encoded_value XOR key) to deter casual console edits
     const _k = 0xA3;
-    const _enc = (n) => n ^ _k; // simple deterrent — not cryptography
+    const _enc = (n) => n ^ _k;
     const _dec = (n) => n ^ _k;
 
     const _raw = [
@@ -1523,15 +1392,13 @@
       { id:8,  name:"Servo Motor SG90",                  desc:"Lightweight 9g micro servo motor with 180° rotation — great for robot arms and RC cars.",           _p:_enc(30), category:"robotics",    badge:"New",        imgs:["S1.png","S2.png"] },
       { id:9,  name:"3.7V 18500 2400mAh Lithium Battery",desc:"Rechargeable lithium-ion battery — reliable power for robotics, drones, and electronics.",         _p:_enc(20), category:"electronics", badge:null,         imgs:["b1.png","b2.png"] },
       { id:10, name:"18650 3.7V Battery Holder",         desc:"Durable battery holder for 18650 cells — with leads for easy connection to your projects.",         _p:_enc(28),  category:"electronics", badge:null,         imgs:["bc1.png","bc2.png"] },
-      { id:11, name:"2WD Robot Car Kit",                     desc:"The 2WD Smart Robot Car Kit is an all-in-one DIY electronics set designed for beginners to learn robotics and Arduino programming. It provides a hands-on experience in building a programmable vehicle that can navigate its environment.",         _p:_enc(550),  category:"robotics", badge:null,         imgs:["USC1.png","USC2.png"] },
-
-    { id:12, name:"4WD Robot Car Kit",                       desc:"The 4WD Smart Robot Car is a powerful, multi-functional upgrade designed to make robotics more accessible through visual coding and smartphone interaction.",         _p:_enc(750),  category:"robotics", badge:"New",         imgs:["USC4W1.png","USC4W2.png"] },
-{ id:13, name:"STEM Circuit Building Science Experiment Kit(100)",                       desc:"This all-in-one electronics set empowers kids to build functional science projects using a safe, interlocking snap-together system. It stands out by integrating voice control and sound recording capabilities, allowing young engineers to create interactive circuits that respond to their environment.Up to 100 connections.",         _p:_enc(700),  category:"stem", badge:"New",         imgs:["100ECB1.png","100ECB2.png"] },
-{ id:14, name:"STEM Circuit Building Science Experiment Kit(70)",                       desc:"This all-in-one electronics set empowers kids to build functional science projects using a safe, interlocking snap-together system. It stands out by integrating voice control and sound recording capabilities, allowing young engineers to create interactive circuits that respond to their environment.Up to 70 connections.",         _p:_enc(550),  category:"stem", badge:"New",         imgs:["70ECB1.png","70ECB2.png"] },
-{ id:15, name:"STEM Circuit Building Science Experiment Kit (40)",                       desc:"This all-in-one electronics set empowers kids to build functional science projects using a safe, interlocking snap-together system. It stands out by integrating voice control and sound recording capabilities, allowing young engineers to create interactive circuits that respond to their environment.Up to 40 connections.",         _p:_enc(475),  category:"stem", badge:"New",         imgs:["40ECB1.png","40ECB2.png"] }
-
+      { id:11, name:"2WD Robot Car Kit",                 desc:"The 2WD Smart Robot Car Kit is an all-in-one DIY electronics set designed for beginners to learn robotics and Arduino programming. It provides a hands-on experience in building a programmable vehicle that can navigate its environment.",         _p:_enc(550),  category:"robotics", badge:null,         imgs:["USC1.png","USC2.png"] },
+      { id:12, name:"4WD Robot Car Kit",                 desc:"The 4WD Smart Robot Car is a powerful, multi-functional upgrade designed to make robotics more accessible through visual coding and smartphone interaction.",         _p:_enc(750),  category:"robotics", badge:"New",         imgs:["USC4W1.png","USC4W2.png"] },
+      { id:13, name:"STEM Circuit Building Science Experiment Kit(100)", desc:"This all-in-one electronics set empowers kids to build functional science projects using a safe, interlocking snap-together system. It stands out by integrating voice control and sound recording capabilities, allowing young engineers to create interactive circuits that respond to their environment. Up to 100 connections.",         _p:_enc(700),  category:"stem", badge:"New",         imgs:["100ECB1.png","100ECB2.png"] },
+      { id:14, name:"STEM Circuit Building Science Experiment Kit(70)",  desc:"This all-in-one electronics set empowers kids to build functional science projects using a safe, interlocking snap-together system. It stands out by integrating voice control and sound recording capabilities, allowing young engineers to create interactive circuits that respond to their environment. Up to 70 connections.",         _p:_enc(550),  category:"stem", badge:"New",         imgs:["70ECB1.png","70ECB2.png"] },
+      { id:15, name:"STEM Circuit Building Science Experiment Kit (40)", desc:"This all-in-one electronics set empowers kids to build functional science projects using a safe, interlocking snap-together system. It stands out by integrating voice control and sound recording capabilities, allowing young engineers to create interactive circuits that respond to their environment. Up to 40 connections.",         _p:_enc(475),  category:"stem", badge:"New",         imgs:["40ECB1.png","40ECB2.png"] }
     ];
-    // Load admin-added or admin-edited products from localStorage
+
     const _adminKey = '__gic_products__';
     const _loadAdmin = () => { try { return JSON.parse(localStorage.getItem(_adminKey) || 'null'); } catch(e) { return null; } };
     const _saveAdmin = (arr) => localStorage.setItem(_adminKey, JSON.stringify(arr));
@@ -1539,41 +1406,31 @@
     let _products = null;
 
     function _build() {
-      // Start from the master list (decoded prices)
       const base = _raw.map(p => ({ ...p, price: _dec(p._p) }));
-      // Merge admin overrides/additions
       const adminData = _loadAdmin();
       if (!adminData) { _products = base; return; }
-      // Admin can change name/desc/category/badge/imgs but NOT price for existing items
-      // Admin CAN set price for NEW items they add
       const merged = [...base];
       adminData.forEach(ap => {
         const existing = merged.find(p => p.id === ap.id);
         if (existing) {
-          // Overwrite everything EXCEPT price (price is locked from master)
           existing.name     = ap.name     || existing.name;
           existing.desc     = ap.desc     || existing.desc;
           existing.category = ap.category || existing.category;
           existing.badge    = ap.badge !== undefined ? ap.badge : existing.badge;
           existing.imgs     = ap.imgs     || existing.imgs;
           if (ap._hidden) existing._hidden = true;
-          // Price override only allowed if this is an admin-created product (id > 10000)
         } else if (ap.id > 10000) {
-          // New product added by admin
           if (!ap._hidden) merged.push({ ...ap });
         }
       });
-      // Filter out products hidden/deleted by admin
       _products = merged.filter(p => !p._hidden);
     }
 
     return {
       get products() { if (!_products) _build(); return _products; },
       getPrice(id) {
-        // Always get price from the LOCKED master list for original items
         const master = _raw.find(p => p.id === id);
         if (master) return _dec(master._p);
-        // For admin-added products, get from admin data
         const adminData = _loadAdmin();
         if (adminData) { const ap = adminData.find(p => p.id === id); if (ap) return ap.price; }
         return 0;
@@ -1584,26 +1441,17 @@
     };
   })();
 
-  // Public accessor — no prices exposed
   function getProducts() { return _STORE.products; }
-  // Price lookup — always from sealed store
   function getTruePrice(id) { return _STORE.getPrice(id); }
 
-  /* =============================================
-     CART STATE (localStorage)
-     Cart stores ONLY id, name, qty, img.
-     Price is NEVER stored in cart — always recalculated.
-  ============================================= */
   let cart = (() => {
     try {
       const raw = JSON.parse(localStorage.getItem('wr_cart') || '[]');
-      // Strip any price fields that might have been injected
       return raw.map(({ id, name, qty, img }) => ({ id, name, qty: Math.max(1, parseInt(qty)||1), img }));
     } catch(e) { return []; }
   })();
 
   function saveCart() {
-    // Never save price to localStorage
     localStorage.setItem('wr_cart', JSON.stringify(
       cart.map(({ id, name, qty, img }) => ({ id, name, qty, img }))
     ));
@@ -1612,7 +1460,6 @@
   function getCartCount() { return cart.reduce((s,i) => s + i.qty, 0); }
 
   function getCartTotal() {
-    // Always recalculate from sealed price store
     return cart.reduce((s,i) => s + getTruePrice(i.id) * i.qty, 0);
   }
 
@@ -1622,7 +1469,7 @@
     if (!p) return;
     const existing = cart.find(i => i.id === id);
     if (existing) existing.qty++;
-    else cart.push({ id:p.id, name:p.name, img:p.imgs[0], qty:1 }); // NO price in cart
+    else cart.push({ id:p.id, name:p.name, img:p.imgs[0], qty:1 });
     saveCart();
     updateCartUI();
     showToast(`✓ ${p.name} added to cart`);
@@ -1669,7 +1516,7 @@
       document.getElementById('checkoutBtn').style.opacity = '1';
       document.getElementById('checkoutBtn').style.pointerEvents = 'auto';
       itemsEl.innerHTML = cart.map(item => {
-        const price = getTruePrice(item.id); // always from sealed store
+        const price = getTruePrice(item.id);
         return `
         <div class="cart-item">
           <div class="cart-item-img"><img src="${item.img}" alt="${item.name}" loading="lazy"/></div>
@@ -1688,13 +1535,10 @@
     }
   }
 
-  /* =============================================
-     WHATSAPP CHECKOUT — always uses sealed prices
-  ============================================= */
   function checkoutWhatsApp() {
     if (cart.length === 0) return;
     const lines = cart.map(i => {
-      const p = getTruePrice(i.id); // sealed store price
+      const p = getTruePrice(i.id);
       return `• ${i.name} x${i.qty} — GH₵${(p*i.qty).toFixed(2)}`;
     }).join('\n');
     const total = getCartTotal();
@@ -1702,9 +1546,6 @@
     window.open(`https://wa.me/233202154489?text=${msg}`, '_blank');
   }
 
-  /* =============================================
-     IMAGE GALLERY TOGGLE
-  ============================================= */
   const imgState = {};
   function switchImage(id, index, e) {
     if (e) e.stopPropagation();
@@ -1716,9 +1557,6 @@
     dots.forEach((d,i) => d.classList.toggle('active', i === index));
   }
 
-  /* =============================================
-     LIGHTBOX
-  ============================================= */
   let lbProductId = null;
   let lbSlot = 0;
 
@@ -1728,7 +1566,7 @@
     if (!p) return;
     lbProductId = id;
     lbSlot = 0;
-    const price = getTruePrice(id); // sealed price
+    const price = getTruePrice(id);
 
     document.getElementById('lbImg0').src = p.imgs[0];
     document.getElementById('lbImg1').src = p.imgs[1];
@@ -1776,60 +1614,56 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeLightbox(); closeAdmin(); } });
 
   /* =============================================
-     RENDER PRODUCTS
+     RENDER PRODUCTS — desc hidden, hint shown instead
   ============================================= */
-  function renderProducts(filter) {
-    filter = filter || 'all';
-    const PRODUCTS = getProducts();
-    const grid = document.getElementById('productsGrid');
-    const filtered = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
-    grid.innerHTML = filtered.map((p, i) => {
-      imgState[p.id] = 0;
-      const price = getTruePrice(p.id); // always from sealed store
-      return `
-      <article class="product-card fade-in" style="animation-delay:${i*0.06}s" data-category="${p.category}" onclick="openLightbox(${p.id})">
-        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
-        <div class="product-img-wrap">
-          <div class="img-track" data-id="${p.id}">
-            <img src="${p.imgs[0]}" alt="${p.name} – view 1" loading="lazy"/>
-            <img src="${p.imgs[1]}" alt="${p.name} – view 2" loading="lazy"/>
-          </div>
-          <button class="img-arrow prev" onclick="switchImage(${p.id},0,event)" aria-label="Prev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-          <button class="img-arrow next" onclick="switchImage(${p.id},1,event)" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-          <div class="img-dots">
-            <button class="img-dot active" data-id="${p.id}" onclick="switchImage(${p.id},0,event)"></button>
-            <button class="img-dot"        data-id="${p.id}" onclick="switchImage(${p.id},1,event)"></button>
-          </div>
-          <div class="zoom-hint"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
-        </div>
-        <div class="product-body">
-          <div class="product-category">${p.category}</div>
-          <h3 class="product-name">${p.name}</h3>
-          <p class="product-desc">${p.desc}</p>
-          <div class="product-footer">
-            <div class="product-price"><span class="currency">GH₵ </span>${price.toFixed(2)}</div>
-            <button class="add-to-cart-btn" data-add="${p.id}" onclick="event.stopPropagation();addToCart(${p.id},false)" aria-label="Add to cart">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add
-            </button>
-          </div>
-        </div>
-      </article>`;
-    }).join('');
-    requestAnimationFrame(() => {
-      document.querySelectorAll('.product-card.fade-in').forEach(el => { el.getBoundingClientRect(); el.classList.add('visible'); });
-    });
-  }
-
-
-  /* =============================================
-     PRODUCT SEARCH
-  ============================================= */
-  let currentFilter = 'all';
-  let currentQuery  = '';
-
   function escapeHtml(str) {
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
+
+  function buildProductCard(p, i, highlight) {
+    const price = getTruePrice(p.id);
+    const safeName = escapeHtml(p.name);
+    const highlightName = highlight
+      ? safeName.replace(
+          new RegExp('(' + escapeHtml(highlight).replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'),
+          '<mark style="background:rgba(21,83,224,0.12);color:var(--blue);border-radius:3px;padding:0 2px">$1</mark>'
+        )
+      : safeName;
+    return `
+    <article class="product-card fade-in" style="animation-delay:${i*0.05}s" data-category="${p.category}" onclick="openLightbox(${p.id})">
+      ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+      <div class="product-img-wrap">
+        <div class="img-track" data-id="${p.id}">
+          <img src="${p.imgs[0]}" alt="${safeName} – view 1" loading="lazy"/>
+          <img src="${p.imgs[1]}" alt="${safeName} – view 2" loading="lazy"/>
+        </div>
+        <button class="img-arrow prev" onclick="switchImage(${p.id},0,event)" aria-label="Prev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button class="img-arrow next" onclick="switchImage(${p.id},1,event)" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        <div class="img-dots">
+          <button class="img-dot active" data-id="${p.id}" onclick="switchImage(${p.id},0,event)"></button>
+          <button class="img-dot"        data-id="${p.id}" onclick="switchImage(${p.id},1,event)"></button>
+        </div>
+        <div class="zoom-hint"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+      </div>
+      <div class="product-body">
+        <div class="product-category">${p.category}</div>
+        <h3 class="product-name">${highlightName}</h3>
+        <div class="product-details-hint">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Tap for details
+        </div>
+        <div class="product-footer">
+          <div class="product-price"><span class="currency">GH₵ </span>${price.toFixed(2)}</div>
+          <button class="add-to-cart-btn" data-add="${p.id}" onclick="event.stopPropagation();addToCart(${p.id},false)" aria-label="Add to cart">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add
+          </button>
+        </div>
+      </div>
+    </article>`;
+  }
+
+  let currentFilter = 'all';
+  let currentQuery  = '';
 
   function applySearch() {
     const PRODUCTS = getProducts();
@@ -1843,18 +1677,9 @@
         (p.badge && p.badge.toLowerCase().includes(query))
       );
     }
-    renderFilteredProducts(results);
-    const info = document.getElementById('searchInfo');
-    info.innerHTML = query
-      ? (results.length > 0
-          ? `Showing <strong>${results.length}</strong> result${results.length !== 1 ? 's' : ''} for "<strong>${escapeHtml(currentQuery)}</strong>"`
-          : '')
-      : '';
-  }
 
-  function renderFilteredProducts(products) {
     const grid = document.getElementById('productsGrid');
-    if (products.length === 0) {
+    if (results.length === 0) {
       grid.innerHTML = `
         <div class="no-results">
           <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1864,57 +1689,25 @@
           <div class="no-results-title">No products found</div>
           <div class="no-results-sub">Try a different search term or browse all categories.</div>
         </div>`;
-      return;
-    }
-    products.forEach(p => { imgState[p.id] = 0; });
-    grid.innerHTML = products.map((p, i) => {
-      const price = getTruePrice(p.id);
-      const q = currentQuery.toLowerCase();
-      const safeName = escapeHtml(p.name);
-      const highlightName = q
-        ? safeName.replace(
-            new RegExp('(' + escapeHtml(currentQuery).replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'),
-            '<mark style="background:rgba(21,83,224,0.12);color:var(--blue);border-radius:3px;padding:0 2px">$1</mark>'
-          )
-        : safeName;
-      return `
-      <article class="product-card fade-in" style="animation-delay:${i*0.05}s" data-category="${p.category}" onclick="openLightbox(${p.id})">
-        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
-        <div class="product-img-wrap">
-          <div class="img-track" data-id="${p.id}">
-            <img src="${p.imgs[0]}" alt="${escapeHtml(p.name)} – view 1" loading="lazy"/>
-            <img src="${p.imgs[1]}" alt="${escapeHtml(p.name)} – view 2" loading="lazy"/>
-          </div>
-          <button class="img-arrow prev" onclick="switchImage(${p.id},0,event)" aria-label="Prev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-          <button class="img-arrow next" onclick="switchImage(${p.id},1,event)" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-          <div class="img-dots">
-            <button class="img-dot active" data-id="${p.id}" onclick="switchImage(${p.id},0,event)"></button>
-            <button class="img-dot"        data-id="${p.id}" onclick="switchImage(${p.id},1,event)"></button>
-          </div>
-          <div class="zoom-hint"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
-        </div>
-        <div class="product-body">
-          <div class="product-category">${p.category}</div>
-          <h3 class="product-name">${highlightName}</h3>
-          <p class="product-desc">${escapeHtml(p.desc)}</p>
-          <div class="product-footer">
-            <div class="product-price"><span class="currency">GH₵ </span>${price.toFixed(2)}</div>
-            <button class="add-to-cart-btn" data-add="${p.id}" onclick="event.stopPropagation();addToCart(${p.id},false)" aria-label="Add to cart">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Add
-            </button>
-          </div>
-        </div>
-      </article>`;
-    }).join('');
-    requestAnimationFrame(() => {
-      document.querySelectorAll('.product-card.fade-in').forEach(el => {
-        el.getBoundingClientRect();
-        el.classList.add('visible');
+    } else {
+      results.forEach(p => { imgState[p.id] = 0; });
+      grid.innerHTML = results.map((p, i) => buildProductCard(p, i, currentQuery)).join('');
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.product-card.fade-in').forEach(el => {
+          el.getBoundingClientRect();
+          el.classList.add('visible');
+        });
       });
-    });
+    }
+
+    const info = document.getElementById('searchInfo');
+    info.innerHTML = query
+      ? (results.length > 0
+          ? `Showing <strong>${results.length}</strong> result${results.length !== 1 ? 's' : ''} for "<strong>${escapeHtml(currentQuery)}</strong>"`
+          : '')
+      : '';
   }
 
-  // Search input events
   const searchInput = document.getElementById('productSearch');
   const searchClear = document.getElementById('searchClear');
   searchInput.addEventListener('input', () => {
@@ -1930,9 +1723,6 @@
     applySearch();
   });
 
-  /* =============================================
-     FILTER TABS — integrated with search
-  ============================================= */
   document.querySelectorAll('.filter-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
@@ -1942,9 +1732,6 @@
     });
   });
 
-  /* =============================================
-     CART DRAWER
-  ============================================= */
   const cartDrawer  = document.getElementById('cartDrawer');
   const cartOverlay = document.getElementById('cartOverlay');
   function openCart()  { cartDrawer.classList.add('open');    cartOverlay.classList.add('open');    document.body.style.overflow = 'hidden'; }
@@ -1954,30 +1741,18 @@
   cartOverlay.addEventListener('click', closeCart);
   document.getElementById('checkoutBtn').addEventListener('click', checkoutWhatsApp);
 
-  /* =============================================
-     HAMBURGER
-  ============================================= */
   const hamburger  = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
   hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
   mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); }));
 
-  /* =============================================
-     STICKY HEADER
-  ============================================= */
   window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 10));
 
-  /* =============================================
-     SCROLL FADE-IN
-  ============================================= */
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  /* =============================================
-     CONTACT FORM
-  ============================================= */
   document.getElementById('formSubmit').addEventListener('click', () => {
     const name  = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -1990,9 +1765,6 @@
     setTimeout(() => document.getElementById('formSuccess').classList.remove('show'), 5000);
   });
 
-  /* =============================================
-     TOAST
-  ============================================= */
   let toastTimer;
   function showToast(msg) {
     const toast = document.getElementById('toast');
@@ -2002,12 +1774,6 @@
     toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
   }
 
-  /* =============================================
-     ADMIN PANEL
-     Access: type  wiserobotics  as password
-     URL:    add #admin to URL or use footer link
-  ============================================= */
-  // Admin password — change 'wiserobotics2024' to your preferred password
   function checkAdminPass(input) {
     return input === 'Jesusis4me';
   }
@@ -2039,7 +1805,6 @@
     updateAdminStats();
   }
 
-  // Login
   document.getElementById('adminLoginBtn').addEventListener('click', () => {
     const val = document.getElementById('adminPwInput').value;
     if (checkAdminPass(val)) {
@@ -2056,13 +1821,12 @@
   document.getElementById('adminPwInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('adminLoginBtn').click(); });
   document.getElementById('adminCloseBtn').addEventListener('click', closeAdmin);
 
-  // Admin table
   function renderAdminTable() {
     const PRODUCTS = getProducts();
     const tbody = document.getElementById('adminTableBody');
     tbody.innerHTML = PRODUCTS.map(p => {
       const price = getTruePrice(p.id);
-      const isLocked = p.id <= 10000; // original products have locked prices
+      const isLocked = p.id <= 10000;
       return `
       <tr>
         <td><img src="${p.imgs[0]}" class="admin-thumb" alt="${p.name}"/></td>
@@ -2094,7 +1858,6 @@
     document.getElementById('adminProductCount').textContent = PRODUCTS.length + ' products';
   }
 
-  // ADD product button
   document.getElementById('adminAddBtn').addEventListener('click', () => openAdminForm(null));
 
   function openAdminForm(product) {
@@ -2109,12 +1872,10 @@
       document.getElementById('afBadge').value      = product.badge || '';
       document.getElementById('afImg1').value       = product.imgs[0] || '';
       document.getElementById('afImg2').value       = product.imgs[1] || '';
-      // Lock price field for original products
       const priceInput = document.getElementById('afPrice');
       if (product.id <= 10000) {
         priceInput.disabled = true;
         priceInput.placeholder = 'Price locked (edit in HTML source)';
-        priceInput.title = 'Prices for original products are locked for security';
       } else {
         priceInput.disabled = false;
         priceInput.placeholder = 'e.g. 180';
@@ -2154,24 +1915,21 @@
     const adminData = _STORE.adminLoad();
 
     if (editId) {
-      // Edit existing
       const existing = adminData.find(p => p.id === editId);
       if (existing) {
         existing.name = name; existing.desc = desc; existing.category = cat;
         existing.badge = badge; existing.imgs = [img1, img2];
         if (editId > 10000) existing.price = parseFloat(document.getElementById('afPrice').value) || existing.price;
       } else {
-        // Not in admin data yet — add an override entry (price stays locked for id <= 10000)
         const entry = { id:editId, name, desc, category:cat, badge, imgs:[img1,img2] };
         adminData.push(entry);
       }
     } else {
-      // Add new product
       const newPrice = parseFloat(document.getElementById('afPrice').value);
       if (!newPrice || newPrice <= 0) { showToast('Please enter a valid price'); return; }
       const existingIds = adminData.map(p => p.id);
       let newId = Date.now();
-      while (existingIds.includes(newId)) newId++; // guarantee uniqueness
+      while (existingIds.includes(newId)) newId++;
       adminData.push({ id:newId, name, desc, category:cat, badge, imgs:[img1,img2], price:newPrice });
     }
 
@@ -2193,31 +1951,25 @@
     if (!confirm('Delete this product? This cannot be undone.')) return;
     let adminData = _STORE.adminLoad();
     if (id <= 10000) {
-      // Original product — mark as hidden via admin data
       const existing = adminData.find(p => p.id === id);
       if (existing) existing._hidden = true;
       else adminData.push({ id, _hidden: true });
     } else {
-      // Admin-added — fully remove
       adminData = adminData.filter(p => p.id !== id);
     }
     _STORE.adminSave(adminData);
-    // Rebuild products filtering hidden ones
     renderAdminTable();
     updateAdminStats();
     applySearch();
     showToast('Product removed from shop');
   }
 
-  // URL hash trigger
   function checkHashAdmin() {
     if (window.location.hash === '#admin') openAdmin();
   }
   window.addEventListener('hashchange', checkHashAdmin);
 
-  /* =============================================
-     INIT
-  ============================================= */
+  /* INIT */
   applySearch();
   updateCartUI();
   setTimeout(() => document.querySelectorAll('.fade-in').forEach(el => observer.observe(el)), 100);
